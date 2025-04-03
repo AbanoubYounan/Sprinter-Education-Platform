@@ -136,3 +136,69 @@ exports.VerifyEmail = async (req, res) => {
     }
 }
 
+
+exports.requestPasswordReset = async (req, res) => {
+    try {
+      const { Email } = req.body;
+      if(!Email){
+        return res.status(400).json({message:"Email is Required."})
+      }
+      const user = await userModel.getUserByEmail(Email);
+  
+      if (!user) {
+        return res.status(404).json({ message: "This Email doesn't exist on TwinAI" });
+      }
+  
+      const token = crypto.randomBytes(32).toString('hex');
+      const expiresAt = new Date(Date.now() + 3600000); // Token valid for 1 hour
+  
+      await authModel.StoreResetToken(Email, token, expiresAt);
+  
+      // Here you should call your email-sending logic with the token
+      const verificationLink = `http://sprinter.mes-design.com/forget-password?t=${token}`;
+        
+      const emailSubject = 'Password Reset Request';
+      const emailMessage = `
+      Hello,
+
+        We received a request to reset your password. Click the link below to set a new password:
+
+        ${verificationLink}
+
+        This link will expire in 1 hour for security reasons. If you didn't request this, please ignore this email.
+
+        If you have any questions, please contact our support team.
+
+        Best regards,  
+        Sprinter
+      `
+      await sendEmail(Email, emailSubject, emailMessage);
+      
+      return res.status(201).json({ message: 'Password reset link sent to email' });
+
+    } catch (error) {
+      return res.status(500).json({ message: 'Server error', error });
+    }
+};
+
+exports.resetPassword = async (req, res) => {
+    try {
+      const { token, newPassword } = req.body;
+      if(!token || !newPassword){
+        return res.status(400).json({message:"Fields can't be empty."})
+      }
+      
+      const resetRecord = await authModel.FindResetToken(token);
+      if (!resetRecord) {
+        return res.status(400).json({ message: 'Invalid or expired token' });
+      }
+      const concatenatedPassword = resetRecord['email'] + newPassword;
+      const PasswordHash = await bcrypt.hash(concatenatedPassword, 10);
+      await userModel.updatePassword(resetRecord['email'], PasswordHash);
+      await authModel.deleteResetToken(resetRecord['email']);
+  
+      return res.json({ message: 'Password reset successfully' });
+    } catch (error) {
+      return res.status(500).json({ message: 'Server error', error });
+    }
+};

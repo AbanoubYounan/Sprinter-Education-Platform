@@ -1,5 +1,10 @@
-const { checkEmailVerficationToken } = require('./retrieve')
+const { StoreResetToken } = require('./create')
+const { checkEmailVerficationToken, FindResetToken } = require('./retrieve')
+const { deleteResetToken } = require('./delete')
 
 module.exports = {
-    checkEmailVerficationToken
+    StoreResetToken,
+    checkEmailVerficationToken,
+    FindResetToken,
+    deleteResetToken
 }

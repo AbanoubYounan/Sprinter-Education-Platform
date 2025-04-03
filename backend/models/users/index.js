@@ -1,10 +1,11 @@
 const { SignUp } = require('./create')
 const { getUserByEmail } = require('./retrieve')
-const { VerifyUser, UpdateEmailVerificationToken } = require('./update')
+const { VerifyUser, UpdateEmailVerificationToken, updatePassword } = require('./update')
 
 module.exports = {
     SignUp,
     getUserByEmail,
     VerifyUser,
-    UpdateEmailVerificationToken
+    UpdateEmailVerificationToken,
+    updatePassword
 }

@@ -30,7 +30,21 @@ async function UpdateEmailVerificationToken(EmailVerificationToken, EmailVerific
     
 }
 
+async function updatePassword(Email, PasswordHash) {
+    const query = 'UPDATE users SET password_hash = ? WHERE email = ?'
+    try{
+        await quering(query, [PasswordHash, Email]);
+        return true;
+    }catch{
+        console.error("Error updating password:", error);
+        throw error;
+    }
+
+}
+
+
 module.exports = {
     VerifyUser,
-    UpdateEmailVerificationToken
+    UpdateEmailVerificationToken,
+    updatePassword
 }
