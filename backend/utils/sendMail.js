@@ -35,13 +35,13 @@ async function sendEmail(toEmail, subject, message) {
   }
 }
 
-// Example usage: Send a standalone email
-const recipientEmail = 'abanoub.younanh@gmail.com';
-const emailSubject = 'Welcome to Sprinter Eduction Platform';
-const emailMessage = 'Hello I am Abanoub Younan from Sprinter How can I help you';
+// // Example usage: Send a standalone email
+// const recipientEmail = 'abanoub.younanh@gmail.com';
+// const emailSubject = 'Welcome to Sprinter Eduction Platform';
+// const emailMessage = 'Hello I am Abanoub Younan from Sprinter How can I help you';
 
-(async () => {
-    await sendEmail(recipientEmail, emailSubject, emailMessage);
-})();
+// (async () => {
+//     await sendEmail(recipientEmail, emailSubject, emailMessage);
+// })();
 
 module.exports = sendEmail
