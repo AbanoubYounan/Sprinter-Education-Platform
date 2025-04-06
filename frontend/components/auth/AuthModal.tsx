@@ -8,7 +8,7 @@ import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 import ForgotPasswordForm from './ForgotPasswordForm';
 
-export default function AuthModal({ init_mode, open, onClose }: { init_mode: 'login' | 'signup' | 'forgot', open: boolean, onClose: () => void }) {
+export default function AuthModal({ init_mode, open, setUser, onClose }: { init_mode: 'login' | 'signup' | 'forgot', open: boolean, setUser: any, onClose: () => void }) {
   const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login');
 
   useEffect(()=>{
@@ -30,7 +30,7 @@ export default function AuthModal({ init_mode, open, onClose }: { init_mode: 'lo
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        {mode === 'login' && <LoginForm onSwitch={setMode} />}
+        {mode === 'login' && <LoginForm onSwitch={setMode} setUser={setUser} />}
         {mode === 'signup' && <SignupForm onSwitch={setMode} />}
         {mode === 'forgot' && <ForgotPasswordForm onSwitch={setMode} />}
       </DialogContent>
