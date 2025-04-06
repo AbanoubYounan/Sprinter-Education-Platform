@@ -41,7 +41,7 @@ exports.Login = async (req, res) => {
                 "Email": userData.email
             },
             JWT_SECRET,
-            { expiresIn: '12h' }
+            // { expiresIn: '12h' } // Remove it now for simplicity 
         );
 
         const signedCookies = await signCookie();
