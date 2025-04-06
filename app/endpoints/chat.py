@@ -49,8 +49,7 @@ def chat_endpoint(request_data: ChatRequest, db: Session = Depends(get_db)):
     
     # Retrieve the conversation history
     if session_obj.user_id:
-        history = sm.get_conversation_history(session_obj.id, session_obj.user_id, limit=10)
-        # Inject history into state under a temporary key; it won't be persisted.
+        history = sm.get_conversation_history(session_obj.id, session_obj.user_id, limit=5)
         state["db_history"] = history
         
     # Set the current user input.

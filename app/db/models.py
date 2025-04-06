@@ -4,7 +4,6 @@ from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Uniq
 from sqlalchemy.orm import relationship
 from app.db.database import Base, engine
 
-# --- Existing Models ---
 
 class User(Base):
     __tablename__ = "users"
@@ -12,7 +11,7 @@ class User(Base):
     username = Column(String, unique=True, index=True, nullable=False)
     sessions = relationship("Session", back_populates="user")
 
-# --- Conversation Models ---
+
 
 class Conversation(Base):
     __tablename__ = "conversations"
@@ -57,8 +56,8 @@ class Session(Base):
     # Individual state fields
     current_course = Column(String, nullable=True)
     current_lesson = Column(String, nullable=True)
-    completed_courses = Column(Text, nullable=True)  # JSON list
-    user_interests = Column(Text, nullable=True)     # JSON list
+    completed_courses = Column(Text, nullable=True)
+    user_interests = Column(Text, nullable=True)
     last_intent = Column(String, nullable=True)
     last_tool = Column(String, nullable=True)
     

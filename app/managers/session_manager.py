@@ -108,7 +108,7 @@ class SessionManager:
         state["user_profile"]["interests"] = json.loads(session_obj.user_interests) if session_obj.user_interests else []
         
         # Retrieve conversation history from the conversation_history table
-        history = self.get_conversation_history(session_obj.id, session_obj.user_id, limit=10)
+        history = self.get_conversation_history(session_obj.id, session_obj.user_id, limit=5)
         state["history"] = history
         
         return state
