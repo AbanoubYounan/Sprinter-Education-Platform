@@ -1,0 +1,5 @@
+[35m-- Full backup of `CourseDataBase` created on 20250405_152337
+
+CREATE DATABASE IF NOT EXISTS `CourseDataBase`;
+USE `CourseDataBase`;
+
