@@ -1,5 +1,7 @@
-const { getAllCourses } = require('./retrieve')
+const { getAllCourses, getCourseChapters, getChapterContent } = require('./retrieve')
 
 module.exports = {
-    getAllCourses
+    getAllCourses,
+    getCourseChapters,
+    getChapterContent
 }
