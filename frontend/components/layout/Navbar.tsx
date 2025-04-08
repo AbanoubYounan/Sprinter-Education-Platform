@@ -1,5 +1,6 @@
 'use client';
 
+import { useAuthModal } from '@/context/AuthModalContext';
 import { useState, useEffect } from "react";
 import { AppBar, Toolbar, Typography, Button, Avatar, Menu, MenuItem, Box } from "@mui/material";
 import { useRouter } from 'next/navigation';
@@ -14,10 +15,11 @@ type DecodedUser = {
 };
 
 const Navbar = () => {
+  const { open, mode, setMode, openModal, closeModal } = useAuthModal();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login');
+  // const [authModalOpen, setAuthModalOpen] = useState(false);
+  // const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>('login');
   const [user, setUser] = useState<DecodedUser | null>(null);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -57,7 +59,7 @@ const Navbar = () => {
         {/* Left - Logo */}
         <Box display="flex" alignItems="center">
           <img
-            src="https://sprintscdn.azureedge.net/production/files/174321119867e74abe1c45d.svg"
+            src="/sprints-logo.svg"
             alt="Logo"
             style={{ width: "120px", height: "32px" }}
           />
@@ -65,8 +67,8 @@ const Navbar = () => {
 
         {/* Center - Links */}
         <Box className="hidden md:flex" gap={3}>
-          <Typography variant="body1" className="cursor-pointer text-gray-700 hover:text-black">
-            Learning
+          <Typography variant="body1" onClick={() => { router.push("/courses");}} className="cursor-pointer text-gray-700 hover:text-black">
+            Courses
           </Typography>
           <Typography variant="body1" className="cursor-pointer text-gray-700 hover:text-black">
             Hire Our Graduates
@@ -89,18 +91,14 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Button variant="outlined" onClick={() => { setAuthModalOpen(true); setMode("login"); }}>
-                Login
-              </Button>
-              <Button variant="contained" onClick={() => { setAuthModalOpen(true); setMode("signup"); }}>
-                Sign Up
-              </Button>
+              <Button variant="outlined" onClick={() => openModal("login")}>Login</Button>
+              <Button variant="contained" onClick={() => openModal("signup")}>Sign Up</Button>
             </>
           )}
         </Box>
       </Toolbar>
 
-      <AuthModal init_mode={mode} open={authModalOpen} setUser={setUser} onClose={() => setAuthModalOpen(false)} />
+      <AuthModal init_mode={mode} open={open} setUser={setUser} onClose={closeModal} />
     </AppBar>
   );
 };
