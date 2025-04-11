@@ -8,7 +8,24 @@ exports.getAllCourses = async (req, res) => {
       const token = req.headers['authorization'];
       if (!token) {
         const courses = await coursesModel.getAllCourses()
-        return res.status(200).json({ courses: courses });
+        const coursesOBJ = {}
+        for(const course of courses){
+          coursesOBJ[course['course_ID']] = {
+            'course_title': course['course_title'],
+            'description': course['description'],
+            'category': course['category'],
+            'level': course['level'],
+            'instructor_id': course['instructor_id'],
+            'instructor_name': course['instructor_name'],
+            'price': course['price'],
+            'thumbnail_url': course['thumbnail_url'],
+            'total_hours': course['total_hours'],
+            'created_at': course['created_at'],
+            'average_rating': course['average_rating'],
+            'review_count': course['review_count']
+          }
+        }
+        return res.status(200).json({ courses: coursesOBJ });
       }else{
         jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
             if (err) {
@@ -17,7 +34,25 @@ exports.getAllCourses = async (req, res) => {
             }else{
               const UserID = decoded['UserID'];
               const courses = await coursesModel.getAllCourses(UserID)
-              return res.status(200).json({ courses: courses });
+              const coursesOBJ = {}
+              for(const course of courses){
+                coursesOBJ[course['course_ID']] = {
+                  'course_title': course['course_title'],
+                  'description': course['description'],
+                  'category': course['category'],
+                  'level': course['level'],
+                  'instructor_id': course['instructor_id'],
+                  'instructor_name': course['instructor_name'],
+                  'price': course['price'],
+                  'thumbnail_url': course['thumbnail_url'],
+                  'total_hours': course['total_hours'],
+                  'created_at': course['created_at'],
+                  'average_rating': course['average_rating'],
+                  'review_count': course['review_count'],
+                  'enrollment_status': course['enrollment_status']
+                }
+              }
+              return res.status(200).json({ courses: coursesOBJ });
             }
         });
       }
@@ -58,8 +93,17 @@ exports.getCourseChapters = async (req, res) => {
       return res.status(400).json({"Message": "CourseID is Required"})
     }
 
-    const result = await coursesModel.getCourseChapters(CourseID)
-    return res.status(200).json({"Chapters": result})
+    const chapters = await coursesModel.getCourseChapters(CourseID)
+    const chaptersObj = {}
+    for(const chapter of chapters){
+      chaptersObj[`${chapter['position']}+${chapter['chapter_ID']}`] = {
+        'title': chapter['title'],
+        'description': chapter['description'],
+        'created_at': chapter['created_at'],
+        'position': chapter['position']
+      }
+    }
+    return res.status(200).json({"Chapters": chaptersObj})
   } catch (error) {
     console.log('error in getCourseChapters controller', error)
     return res.status(500).json({ message: 'Server error', error });
@@ -74,8 +118,19 @@ exports.getChapterContent = async (req, res) => {
       return res.status(400).json({"Message": "ChapterID is Required"})
     }
 
-    const result = await coursesModel.getChapterContent(ChapterID)
-    return res.status(200).json({"Content": result})
+    const contents = await coursesModel.getChapterContent(ChapterID)
+    const contentObj = {}
+    for(const content of contents){
+      contentObj[`${content['position']}+${content['content_ID']}`]={
+        'content_type': content['content_type'],
+        'content_url': content['content_url'],
+        'description': content['description'],
+        'duration': content['duration'],
+        'created_at': content['created_at'],
+        'position': content['position']
+      }
+    }
+    return res.status(200).json({"Content": contentObj})
   } catch (error) {
     console.log('error in getChapterContent controller', error)
     return res.status(500).json({ message: 'Server error', error });
