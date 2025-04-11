@@ -64,23 +64,28 @@ const CoursesList = () => {
     }
 
 
-  useEffect(() => {
+    useEffect(() => {
     const token = localStorage.getItem('token');
-  
+    
     axios.get('http://127.0.0.1:5000/api/courses', {
-      headers: token ? { Authorization: `${token}` } : {}
+        headers: token ? { Authorization: `${token}` } : {}
     })
     .then(res => {
-      setCourses(res.data.courses);
-      console.log('courses', res.data.courses)
-      setLoading(false);
+        const coursesObject = res.data.courses;
+        const coursesArray = Object.entries(coursesObject).map(([course_ID, course]: any) => ({
+        course_ID,
+        ...course
+        }));
+        setCourses(coursesArray);
+        console.log('courses', coursesArray);
+        setLoading(false);
     })
     .catch(err => {
-      console.error("Failed to fetch courses:", err);
-      setLoading(false);
+        console.error("Failed to fetch courses:", err);
+        setLoading(false);
     });
-  }, []);
-  
+    }, []);
+      
 
   if (loading) {
     return <div className="text-center mt-10 text-lg font-semibold">Loading courses...</div>;
@@ -133,7 +138,7 @@ const CoursesList = () => {
                         if(course.enrollment_status === 'Not Enrolled'){
                             Enroll(course)
                         }else{
-                            alert(`Opening "${course.course_title}"`)
+                            window.open(`/courses/${course.course_ID}`, '_blank');
                         }
                     }}
                     >
