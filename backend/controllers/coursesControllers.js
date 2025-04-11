@@ -1,6 +1,7 @@
 const coursesModel = require('../models/courses/index')
 const enrollModel = require('../models/enroll/index')
 const jwt = require('jsonwebtoken');
+const signURL = require('../utils/cdnSignURL')
 
 
 exports.getAllCourses = async (req, res) => {
@@ -121,9 +122,14 @@ exports.getChapterContent = async (req, res) => {
     const contents = await coursesModel.getChapterContent(ChapterID)
     const contentObj = {}
     for(const content of contents){
+      let url = content['content_url'];
+      if(content['content_type']=='pdf'){
+        url = await signURL(`sprinter/${content['content_ID']}.pdf`)
+      }
       contentObj[`${content['position']}+${content['content_ID']}`]={
+        'content_title': content['content_title'],
         'content_type': content['content_type'],
-        'content_url': content['content_url'],
+        'content_url': url,
         'description': content['description'],
         'duration': content['duration'],
         'created_at': content['created_at'],

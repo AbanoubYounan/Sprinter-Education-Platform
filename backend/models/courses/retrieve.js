@@ -118,6 +118,7 @@ async function getChapterContent(ChapterID) {
     try{
         const query = `
             SELECT 
+                co.content_title,
                 co.content_ID,
                 co.content_type,
                 co.content_url,
