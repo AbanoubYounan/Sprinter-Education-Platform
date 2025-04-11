@@ -30,7 +30,7 @@ export default function AuthModal({ init_mode, open, setUser, onClose }: { init_
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        {mode === 'login' && <LoginForm onSwitch={setMode} setUser={setUser} />}
+        {mode === 'login' && <LoginForm onSwitch={setMode} handleClose={handleClose} setUser={setUser} />}
         {mode === 'signup' && <SignupForm onSwitch={setMode} />}
         {mode === 'forgot' && <ForgotPasswordForm onSwitch={setMode} />}
       </DialogContent>

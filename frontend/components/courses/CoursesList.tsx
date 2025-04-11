@@ -65,26 +65,57 @@ const CoursesList = () => {
 
 
     useEffect(() => {
-    const token = localStorage.getItem('token');
-    
-    axios.get('http://127.0.0.1:5000/api/courses', {
-        headers: token ? { Authorization: `${token}` } : {}
-    })
-    .then(res => {
-        const coursesObject = res.data.courses;
-        const coursesArray = Object.entries(coursesObject).map(([course_ID, course]: any) => ({
-        course_ID,
-        ...course
-        }));
-        setCourses(coursesArray);
-        console.log('courses', coursesArray);
-        setLoading(false);
-    })
-    .catch(err => {
-        console.error("Failed to fetch courses:", err);
-        setLoading(false);
-    });
+        const token = localStorage.getItem('token');
+        
+        axios.get('http://127.0.0.1:5000/api/courses', {
+            headers: token ? { Authorization: `${token}` } : {}
+        })
+        .then(res => {
+            const coursesObject = res.data.courses;
+            const coursesArray = Object.entries(coursesObject).map(([course_ID, course]: any) => ({
+            course_ID,
+            ...course
+            }));
+            setCourses(coursesArray);
+            console.log('courses', coursesArray);
+            setLoading(false);
+        })
+        .catch(err => {
+            console.error("Failed to fetch courses:", err);
+            setLoading(false);
+        });
     }, []);
+
+    useEffect(() => {
+        const handleTokenChange = () => {
+          const token = localStorage.getItem('token');
+          axios.get('http://127.0.0.1:5000/api/courses', {
+                headers: token ? { Authorization: `${token}` } : {}
+            })
+            .then(res => {
+                const coursesObject = res.data.courses;
+                const coursesArray = Object.entries(coursesObject).map(([course_ID, course]: any) => ({
+                course_ID,
+                ...course
+                }));
+                setCourses(coursesArray);
+                console.log('courses', coursesArray);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error("Failed to fetch courses:", err);
+                setLoading(false);
+            });
+        };
+      
+        window.addEventListener('tokenChange', handleTokenChange);
+      
+        return () => {
+          window.removeEventListener('tokenChange', handleTokenChange);
+        };
+    }, []);
+      
+
       
 
   if (loading) {
