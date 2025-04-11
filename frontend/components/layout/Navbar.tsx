@@ -54,8 +54,8 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" color="default" className="bg-gray-100 fixed top-0 z-50 w-full shadow-sm">
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <AppBar position="static" color="default" className="bg-gray-100 fixed top-0 z-50 w-full shadow-sm h-[8vh]">
+      <Toolbar className='h-[8vh]' sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         {/* Left - Logo */}
         <Box display="flex" alignItems="center">
           <img
