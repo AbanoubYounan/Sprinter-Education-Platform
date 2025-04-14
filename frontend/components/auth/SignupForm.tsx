@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Checkbox,
-  Divider,
   FormControlLabel,
   TextField,
   Typography,
@@ -10,6 +9,9 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import axios from 'axios';
+const ENV_MODE = process.env.NEXT_PUBLIC_ENV_MODE
+const DEV_DOMAIN_NAME = process.env.NEXT_PUBLIC_DEV_DOMAIN_NAME
+const PRO_DOMAIN_NAME = process.env.NEXT_PUBLIC_PRO_DOMAIN_NAME
 
 export default function SignupForm({ onSwitch }: { onSwitch: (mode: 'login') => void }) {
   const [form, setForm] = useState({
@@ -45,7 +47,7 @@ export default function SignupForm({ onSwitch }: { onSwitch: (mode: 'login') => 
 
     try {
       setLoading(true);
-      const res = await axios.post('http://127.0.0.1:5000/api/auth/sign-up', {
+      const res = await axios.post(`${ENV_MODE=='DEV'?DEV_DOMAIN_NAME:PRO_DOMAIN_NAME}api/auth/sign-up`, {
         FullName: form.fullName,
         Email: form.email,
         Password: form.password,

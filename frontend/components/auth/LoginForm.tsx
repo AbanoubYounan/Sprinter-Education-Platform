@@ -3,8 +3,13 @@ import { useState } from 'react';
 import { Box, Button, TextField, Typography, Alert } from '@mui/material';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { useRouter } from 'next/navigation';
+const ENV_MODE = process.env.NEXT_PUBLIC_ENV_MODE
+const DEV_DOMAIN_NAME = process.env.NEXT_PUBLIC_DEV_DOMAIN_NAME
+const PRO_DOMAIN_NAME = process.env.NEXT_PUBLIC_PRO_DOMAIN_NAME
 
-export default function LoginForm({ onSwitch, setUser }: { onSwitch: (mode: 'signup' | 'forgot') => void, setUser: any}) {
+export default function LoginForm({ onSwitch, setUser, handleClose }: { onSwitch: (mode: 'signup' | 'forgot') => void, setUser: any, handleClose:any}) {
+  const router = useRouter();
   const [form, setForm] = useState({ email: '', password: '' });
   const [message, setMessage] = useState<{ text: string; type: 'error' | 'success' } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -23,7 +28,7 @@ export default function LoginForm({ onSwitch, setUser }: { onSwitch: (mode: 'sig
 
     try {
       setLoading(true);
-      const res = await axios.post('http://127.0.0.1:5000/api/auth/login', {
+      const res = await axios.post(`${ENV_MODE=='DEV'?DEV_DOMAIN_NAME:PRO_DOMAIN_NAME}/api/auth/login`, {
         Email: form.email,
         Password: form.password,
       });
@@ -35,11 +40,14 @@ export default function LoginForm({ onSwitch, setUser }: { onSwitch: (mode: 'sig
       // Decode and store expiry
       const decoded: any = jwtDecode(token);      
       localStorage.setItem('token', token);
+      window.dispatchEvent(new Event('tokenChange'));
       localStorage.setItem('user', decoded);
       setUser(decoded)
 
       setMessage({ type: 'success', text: 'Login successful! Redirecting...' });
-
+      // window.open(`/courses`);
+      router.push('/courses');
+      handleClose()
       // Optional: redirect or update global auth state
       // router.push('/dashboard') or setAuth({ user: decoded, token })
 
