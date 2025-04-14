@@ -4,6 +4,9 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+const ENV_MODE = process.env.NEXT_PUBLIC_ENV_MODE
+const DEV_DOMAIN_NAME = process.env.NEXT_PUBLIC_DEV_DOMAIN_NAME
+const PRO_DOMAIN_NAME = process.env.NEXT_PUBLIC_PRO_DOMAIN_NAME
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
@@ -20,7 +23,7 @@ export default function CoursePage() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!courseId || !token) return;
-    fetch(`http://127.0.0.1:5000/api/courses/${courseId}`, {
+    fetch(`${ENV_MODE=='DEV'?DEV_DOMAIN_NAME:PRO_DOMAIN_NAME}api/courses/${courseId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +43,7 @@ export default function CoursePage() {
       if (!chapterContent[chapterId]) {
         try {
           const token = localStorage.getItem('token');
-          const res = await fetch(`http://127.0.0.1:5000/api/courses/Chapter/${chapterKey}`, {
+          const res = await fetch(`${ENV_MODE=='DEV'?DEV_DOMAIN_NAME:PRO_DOMAIN_NAME}api/courses/Chapter/${chapterKey}`, {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `${token}`

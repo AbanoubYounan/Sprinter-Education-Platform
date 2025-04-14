@@ -7,6 +7,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import Image from 'next/image';
+const ENV_MODE = process.env.NEXT_PUBLIC_ENV_MODE
+const DEV_DOMAIN_NAME = process.env.NEXT_PUBLIC_DEV_DOMAIN_NAME
+const PRO_DOMAIN_NAME = process.env.NEXT_PUBLIC_PRO_DOMAIN_NAME
 
 interface Course {
   course_ID: string;
@@ -32,12 +35,12 @@ const CoursesList = () => {
             openModal('login');
             return;
         }
-
+        console.log("ENV", ENV_MODE, DEV_DOMAIN_NAME, PRO_DOMAIN_NAME)
         // If not enrolled, make the enroll request
         if (course.enrollment_status === 'Not Enrolled') {
             try {
                 const response = await axios.put(
-                    "http://127.0.0.1:5000/api/courses/enroll",
+                    `${ENV_MODE=='DEV'?DEV_DOMAIN_NAME:PRO_DOMAIN_NAME}api/courses/enroll`,
                     { "CourseID": course.course_ID},
                     {
                         headers: {
@@ -66,8 +69,8 @@ const CoursesList = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        
-        axios.get('http://127.0.0.1:5000/api/courses', {
+        console.log("ENV", ENV_MODE, DEV_DOMAIN_NAME, PRO_DOMAIN_NAME)
+        axios.get(`${ENV_MODE=='DEV'?DEV_DOMAIN_NAME:PRO_DOMAIN_NAME}api/courses`, {
             headers: token ? { Authorization: `${token}` } : {}
         })
         .then(res => {
@@ -89,7 +92,7 @@ const CoursesList = () => {
     useEffect(() => {
         const handleTokenChange = () => {
           const token = localStorage.getItem('token');
-          axios.get('http://127.0.0.1:5000/api/courses', {
+          axios.get(`${ENV_MODE=='DEV'?DEV_DOMAIN_NAME:PRO_DOMAIN_NAME}api/courses`, {
                 headers: token ? { Authorization: `${token}` } : {}
             })
             .then(res => {
