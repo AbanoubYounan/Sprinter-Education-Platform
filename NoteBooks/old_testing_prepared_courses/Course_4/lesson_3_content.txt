@@ -1,0 +1,39 @@
+Lesson 3: Vanishing and Exploding Gradients in RNNs
+
+Lesson Description:
+This lesson covers the issues of vanishing and exploding gradients in Recurrent Neural Networks (RNNs), and how they affect training deep models on sequences. You will learn why these problems arise in deep neural networks and explore potential solutions.
+
+---
+
+1. The Vanishing Gradient Problem
+In RNNs, during backpropagation, gradients can become very small, which results in the model being unable to learn long-term dependencies in sequences. This issue is called the vanishing gradient problem.
+   - When gradients are small, the weights of the network are updated very slowly, which causes the model to struggle with learning over long sequences.
+
+2. The Exploding Gradient Problem
+On the other hand, gradients can also become very large, causing the weights to update too quickly, leading to unstable training. This is known as the exploding gradient problem.
+   - When the gradients are large, the model may oscillate wildly and fail to converge during training.
+
+3. Why These Problems Occur
+These issues arise because of the nature of backpropagation through time (BPTT) in RNNs. In BPTT, gradients are propagated backward through each time step in a sequence, and if the gradients are multiplied by small or large numbers repeatedly, they can shrink or grow exponentially.
+
+4. Effects on Training
+- Vanishing gradients make it difficult for RNNs to learn from sequences where long-term dependencies are important, such as in language modeling or time series prediction.
+- Exploding gradients cause instability, making it hard for the network to converge, and can result in NaN values in the network weights.
+
+5. Solutions to the Vanishing and Exploding Gradient Problems
+To address these problems, several techniques are commonly used:
+   - **Gradient Clipping**: In the case of exploding gradients, gradient clipping can be applied. This technique limits the size of the gradients during training to prevent them from becoming too large.
+   - **LSTM and GRU Networks**: Long Short-Term Memory (LSTM) networks and Gated Recurrent Units (GRUs) are designed to handle the vanishing gradient problem by using special gates to control the flow of information, allowing the model to learn long-term dependencies more effectively.
+
+6. Batch Normalization and Weight Initialization
+Another technique to address these problems is batch normalization, which normalizes the input to each layer during training. Proper weight initialization methods can also help by ensuring that the gradients are neither too large nor too small at the start of training.
+
+7. Conclusion
+In this lesson, you learned about the vanishing and exploding gradient problems in RNNs, their effects on training, and how advanced techniques like LSTMs and GRUs can help mitigate these issues. Understanding these problems is crucial when working with sequence models to ensure stable and efficient training.
+
+---
+
+Next Steps:
+- Implement a simple RNN and experiment with gradient clipping to handle exploding gradients.
+- Compare the performance of a vanilla RNN with an LSTM or GRU on a task with long-term dependencies, such as language modeling.
+- Explore other techniques for improving RNN training, such as using better weight initialization or batch normalization.

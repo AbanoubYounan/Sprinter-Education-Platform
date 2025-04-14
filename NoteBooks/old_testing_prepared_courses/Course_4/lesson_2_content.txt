@@ -1,0 +1,50 @@
+Lesson 2: Recurrent Neural Networks (RNNs)
+
+Lesson Description:
+In this lesson, you'll learn about Recurrent Neural Networks (RNNs), which are designed to handle sequence data. RNNs are capable of processing sequences of variable length and capturing temporal dependencies between elements in a sequence. We will also explore how RNNs are trained using backpropagation through time (BPTT) and the challenges associated with training them.
+
+---
+
+1. What is a Recurrent Neural Network (RNN)?
+An RNN is a type of neural network designed to process sequential data by maintaining a hidden state that is updated at each time step. The key feature of RNNs is their ability to "remember" previous information in the sequence and use that information for current predictions.
+   - RNNs have a recurrent connection that allows information from previous time steps to be passed to the current time step.
+
+2. The Architecture of an RNN
+The basic structure of an RNN consists of:
+   - Input: Each element of the sequence is fed into the RNN one at a time.
+   - Hidden State: At each time step, the RNN maintains a hidden state that is updated based on the current input and the previous hidden state.
+   - Output: The RNN produces an output based on the current hidden state.
+
+3. Backpropagation Through Time (BPTT)
+To train an RNN, we use a variant of backpropagation known as backpropagation through time (BPTT). This involves unrolling the RNN across time steps and calculating the gradients for each time step.
+   - The gradients are then used to update the weights in the network to minimize the loss function.
+   - BPTT can be computationally expensive because it requires storing intermediate values for each time step.
+
+4. The Vanishing Gradient Problem
+One of the main challenges with training RNNs is the vanishing gradient problem. This occurs when gradients become very small as they are propagated backward through time, making it difficult for the network to learn long-term dependencies in the sequence.
+   - This problem can make RNNs ineffective at capturing relationships that span many time steps, leading to poor performance on tasks like language modeling or long-term forecasting.
+
+5. The Exploding Gradient Problem
+In contrast to the vanishing gradient problem, the exploding gradient problem occurs when gradients become very large, causing instability during training. This can result in large updates to the model's weights, leading to a loss of information and preventing the model from converging.
+
+6. Solutions to the Gradient Problems
+There are several approaches to mitigate the vanishing and exploding gradient problems:
+   - Gradient Clipping: Limiting the size of the gradients to prevent them from exploding.
+   - LSTM (Long Short-Term Memory) and GRU (Gated Recurrent Unit): These are specialized types of RNNs designed to address the vanishing gradient problem by incorporating gating mechanisms that allow the network to retain information over longer time periods.
+
+7. Applications of RNNs
+RNNs are widely used in tasks where sequential data is involved, such as:
+   - Natural Language Processing (NLP): Tasks like language modeling, machine translation, and text generation.
+   - Time Series Prediction: Forecasting future values based on past observations.
+   - Speech Recognition: Transcribing audio signals into text.
+   - Video Analysis: Processing sequences of video frames for tasks like action recognition.
+
+8. Conclusion
+In this lesson, you learned the fundamentals of Recurrent Neural Networks (RNNs), including their architecture, how they are trained using backpropagation through time (BPTT), and the challenges associated with training them. You also learned about the vanishing and exploding gradient problems and how they can be addressed using techniques like gradient clipping and more advanced RNN architectures such as LSTMs and GRUs.
+
+---
+
+Next Steps:
+- Implement a simple RNN for a sequential task like text generation or time series forecasting.
+- Experiment with different architectures (e.g., LSTMs, GRUs) to see how they address the challenges of training RNNs.
+- Explore ways to improve the training process, such as gradient clipping or using batch normalization.

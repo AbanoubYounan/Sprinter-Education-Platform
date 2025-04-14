@@ -1,0 +1,73 @@
+Lesson 3: Building a Convolutional Neural Network from Scratch
+
+Lesson Description:
+Learn how to implement a CNN from scratch, starting with basic concepts and progressing to a full CNN architecture.
+
+---
+
+1. Introduction to CNN Architecture
+A Convolutional Neural Network (CNN) consists of several layers, each designed to extract specific features from input images. The basic architecture typically includes the following layers:
+
+- Convolutional Layer: Applies convolution operations to extract features from the image.
+- Activation Function (ReLU): Adds non-linearity to the network.
+- Pooling Layer: Reduces the spatial dimensions of the feature maps.
+- Fully Connected Layer: Flattens the output of the previous layers and performs classification.
+
+2. Convolutional Layer
+The convolutional layer is the heart of the CNN. It applies filters to the input image to extract basic features such as edges, textures, and shapes.
+
+- Filter/Kernels: Learnable filters that detect specific features.
+- Stride: Controls the movement of the filter over the image.
+- Padding: Adds extra pixels around the image to maintain dimensions after convolution.
+
+3. Activation Function (ReLU)
+The ReLU (Rectified Linear Unit) activation function introduces non-linearity by applying the following operation:
+
+- ReLU(x) = max(0, x)
+
+This allows the network to learn complex patterns by applying non-linear transformations to the input.
+
+4. Pooling Layer
+Pooling layers reduce the size of the feature maps by down-sampling them. There are two common types of pooling:
+
+- Max Pooling: Takes the maximum value from a group of pixels.
+- Average Pooling: Takes the average value from a group of pixels.
+
+Pooling layers help reduce computational cost and make the network invariant to small translations in the input image.
+
+5. Fully Connected Layer
+The fully connected layer connects every neuron from the previous layer to every neuron in this layer. It is typically used for classification after the convolutional and pooling layers have extracted features.
+
+- Flattening: The output of the convolutional and pooling layers is flattened into a one-dimensional vector before feeding it into the fully connected layer.
+- Output Layer: The final fully connected layer produces the output of the network, such as class probabilities.
+
+6. Example: Building a Simple CNN
+Here’s a basic CNN architecture for image classification:
+
+- Input Layer: Accepts the image (e.g., 32x32x3).
+- Convolutional Layer 1: Apply 32 filters of size 3x3.
+- ReLU Activation: Apply ReLU activation to the output.
+- Max Pooling Layer: Perform 2x2 max pooling.
+- Convolutional Layer 2: Apply 64 filters of size 3x3.
+- ReLU Activation: Apply ReLU activation to the output.
+- Max Pooling Layer: Perform 2x2 max pooling.
+- Flattening: Flatten the output into a 1D vector.
+- Fully Connected Layer: Connect the flattened vector to the output layer.
+- Output Layer: Produce class predictions (e.g., using softmax).
+
+7. Training the CNN
+Once the CNN is built, it can be trained on labeled data. The training process involves the following steps:
+
+- Forward Pass: Pass input data through the network to compute the output.
+- Loss Calculation: Compare the output with the ground truth to calculate the loss (e.g., cross-entropy loss for classification).
+- Backpropagation: Compute gradients of the loss with respect to the network parameters.
+- Optimizer: Use an optimization algorithm (e.g., SGD or Adam) to update the network’s parameters based on the gradients.
+
+8. Conclusion
+In this lesson, you learned the basic components of a CNN, including convolutional layers, activation functions, pooling layers, and fully connected layers. You also gained an understanding of how to build a simple CNN architecture for image classification from scratch.
+
+---
+
+Next Steps:
+- In the next lesson, we will explore pooling operations in more detail, including max-pooling and average-pooling, and understand their role in reducing feature map dimensions.
+- You will also learn how pooling layers help preserve important features while reducing computational complexity.

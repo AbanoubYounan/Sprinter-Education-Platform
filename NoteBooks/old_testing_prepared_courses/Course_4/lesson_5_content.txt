@@ -1,0 +1,48 @@
+Lesson 5: Gated Recurrent Units (GRUs)
+
+Lesson Description:
+In this lesson, you will learn about Gated Recurrent Units (GRUs), an alternative to LSTMs. GRUs are designed to solve the same problems as LSTMs, such as the vanishing gradient problem, but with a simpler architecture.
+
+---
+
+1. Introduction to GRUs
+Gated Recurrent Units (GRUs) are a type of Recurrent Neural Network (RNN) that, like LSTMs, are designed to capture long-term dependencies in sequential data. However, GRUs use fewer gates and parameters, which makes them faster to train and less computationally expensive compared to LSTMs.
+
+2. GRU Architecture
+The GRU architecture consists of two main gates:
+   - Update Gate: Decides how much of the previous memory should be carried forward and how much of the new information should be added.
+   - Reset Gate: Controls how much of the previous memory should be forgotten when processing the current input.
+
+These gates allow the GRU to control the flow of information, similar to how the gates work in LSTMs.
+
+3. How GRUs Work
+At each time step, a GRU performs the following steps:
+   - The reset gate decides which information from the previous time step should be forgotten.
+   - The update gate controls how much of the new information should be added to the current state, and how much of the previous state should be retained.
+   - The GRU computes the output by combining the updated state and the previous state information.
+
+4. Advantages of GRUs
+   - Simpler Architecture: GRUs have a simpler architecture compared to LSTMs because they use only two gates instead of three. This makes GRUs faster to train and easier to implement.
+   - Computational Efficiency: Due to the reduced number of parameters, GRUs are computationally more efficient than LSTMs while still providing comparable performance.
+
+5. GRU vs LSTM
+   While both LSTMs and GRUs are capable of capturing long-term dependencies in sequential data, there are some differences:
+   - GRUs use fewer gates and parameters, making them faster to train.
+   - LSTMs tend to perform better when there are very long-range dependencies in the data, but GRUs may outperform LSTMs in tasks where the data has shorter dependencies.
+   - In practice, both architectures can be used for similar tasks, and the choice between them often depends on the specific problem and dataset.
+
+6. Applications of GRUs
+GRUs are widely used in many sequence-based tasks, similar to LSTMs:
+   - Language Modeling: Predicting the next word or character in a sequence.
+   - Speech Recognition: Converting spoken words into text.
+   - Time Series Forecasting: Predicting future values based on past observations.
+
+7. Conclusion
+In this lesson, you learned about Gated Recurrent Units (GRUs), their architecture, and how they compare to LSTMs. GRUs are an efficient alternative to LSTMs and are used in various sequence modeling tasks, such as language modeling, speech recognition, and time series forecasting.
+
+---
+
+Next Steps:
+- Implement a GRU for a sequence-based task and compare its performance with an LSTM.
+- Experiment with different GRU configurations (e.g., number of layers, hidden units) to see how they affect performance.
+- Apply GRUs to a real-world sequence modeling problem, such as time series forecasting or sentiment analysis.

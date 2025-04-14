@@ -1,0 +1,61 @@
+Lesson 4: Vectorization and Efficiency in Neural Networks
+
+Lesson Description:
+This lesson teaches you how to improve the efficiency of training a neural network using vectorized operations and discusses how to implement neural networks efficiently using popular deep learning frameworks.
+
+---
+
+Lesson Content:
+
+---
+
+Vectorization and Efficiency in Neural Networks
+
+1. Introduction to Vectorization
+
+Vectorization is transforming operations that would typically be done sequentially (e.g., using loops) into operations that can be executed on entire arrays or matrices at once, in parallel. This significantly speeds up neural network training.
+
+Many operations in neural networks, such as the forward pass and backpropagation, involve matrix multiplications. Vectorization lets us compute these operations more efficiently.
+
+2. Why Vectorization Matters
+
+Without vectorization, training a neural network can be slow because many operations (like matrix multiplications) would need to be performed step by step in loops. Vectorizing these operations allows all calculations to be performed simultaneously, improving performance.
+
+For example, instead of computing each neuron’s weighted sum individually, we can compute them all at once using matrix multiplication.
+
+3. How Vectorization Works
+
+Example of a forward pass in a layer:
+- Input `X` is a matrix with shape `(m, n)` (m samples, n features).
+- Weights `W` is a matrix with shape `(n, m)` (n features, m neurons).
+- The output `Z` is calculated as: `Z = W * X + b`.
+
+Instead of using loops to calculate each neuron’s output, we perform matrix multiplication to compute the entire output at once.
+
+4. Vectorization in Deep Learning Frameworks
+
+Deep learning libraries like TensorFlow and PyTorch are optimized for vectorized computations. They use GPUs, which can perform many calculations in parallel, to accelerate training.
+
+In these frameworks, operations on matrices (called tensors) are automatically vectorized and optimized, making the code simpler and faster.
+
+Example in Python (using NumPy):
+
+```python
+import numpy as np
+
+# Input data (3 samples, 4 features)
+X = np.array([[1, 2, 3, 4],
+              [5, 6, 7, 8],
+              [9, 10, 11, 12]])
+
+# Weight matrix (4 features, 2 neurons)
+W = np.array([[0.1, 0.2],
+              [0.3, 0.4],
+              [0.5, 0.6],
+              [0.7, 0.8]])
+
+# Bias vector (2 neurons)
+b = np.array([0.1, 0.2])
+
+# Calculate the output of the layer
+Z = np.dot(X, W) + b

@@ -1,0 +1,109 @@
+Lesson 3: Training Neural Networks
+
+Lesson Description:
+Learn about the forward and backward propagation processes, how gradients are calculated, and how the backpropagation algorithm is used to optimize the weights of a neural network.
+
+---
+
+Lesson Content:
+
+---
+
+Training Neural Networks
+
+1. Introduction to Training Neural Networks
+
+Training a neural network involves two main phases: forward propagation and backward propagation. During forward propagation, input data is passed through the network to make predictions. During backward propagation, the error (loss) is propagated back through the network to adjust the weights and biases. This process allows the network to minimize its loss function and improve the accuracy of its predictions.
+
+Here’s a breakdown of the key steps involved in training a neural network:
+
+- Forward Propagation: The input data flows through the layers of the network, and the activations of the neurons are calculated.
+  
+- Loss Calculation: After the forward pass, the model's prediction is compared to the true value (ground truth) using a loss function. This measures how well the network is performing.
+  
+- Backward Propagation (Backpropagation): The error is calculated and propagated backward through the network to update the weights and biases, minimizing the loss.
+
+- Optimization: The weights and biases are updated using an optimization algorithm like gradient descent.
+
+2. Forward Propagation
+
+Forward propagation is the process by which input data passes through each layer of the neural network, and the network makes predictions based on its current weights and biases. Here's how it works:
+
+- Input Layer: The data is fed into the network. Each neuron in the input layer receives one feature of the data.
+  
+- Hidden Layers: Each hidden layer performs a weighted sum of its inputs and adds a bias term. The result is passed through an activation function (such as ReLU or sigmoid) to introduce non-linearity.
+
+- Output Layer: The output layer produces the prediction of the network. For classification problems, this might be the probability distribution over different classes (using softmax). For regression, it might be a continuous value.
+
+Mathematically, for each layer, the output "a" can be computed as:
+  
+  a = f(Wx + b)
+  
+  Where:
+  - W is the weight matrix
+  - x is the input vector
+  - b is the bias vector
+  - f is the activation function (e.g., ReLU, sigmoid)
+
+3. Loss Calculation
+
+Once the forward pass is complete, the output of the neural network is compared to the true labels using a loss function. The goal of training is to minimize this loss, which quantifies how far the model's predictions are from the true values.
+
+Common loss functions include:
+
+- Mean Squared Error (MSE): Used for regression tasks. It calculates the average squared difference between the predicted and true values.
+
+  MSE = 1/n * Σ (y_pred(i) - y(i))^2
+  
+  Where y_pred(i) is the predicted value, y(i) is the true value, and n is the number of data points.
+
+- Cross-Entropy Loss: Used for classification tasks. It measures the difference between the predicted probability distribution and the true distribution (one-hot encoded vector).
+
+  L = - Σ y_i * log(ŷ_i)
+  
+  Where:
+  - y_i is the true class label (0 or 1)
+  - ŷ_i is the predicted probability of class i
+  - C is the number of classes
+
+4. Backpropagation
+
+Backpropagation is the core algorithm used to update the weights and biases of the neural network. It calculates the gradients of the loss function with respect to the weights and biases, and uses these gradients to adjust the parameters.
+
+The backpropagation process can be broken down into the following steps:
+
+- Step 1: Compute the Gradient of the Loss Function: Start by calculating the derivative of the loss function with respect to the output of the network. For each layer, we compute the gradient of the loss with respect to the weights and biases.
+
+- Step 2: Backpropagate the Gradient: The gradient is then propagated backward through the network. This is done layer by layer, starting from the output layer and moving toward the input layer. The chain rule of calculus is used to calculate the gradient for each layer.
+
+- Step 3: Update the Weights and Biases: Once the gradients are computed, we update the weights and biases using an optimization algorithm, such as gradient descent.
+
+Mathematically, the update rule for the weights W is:
+
+  W_new = W_old - η * (∂L/∂W)
+
+Where:
+- η is the learning rate
+- (∂L/∂W) is the gradient of the loss with respect to the weight matrix
+
+5. Gradient Descent and Optimization
+
+Gradient descent is an optimization technique used to minimize the loss function by adjusting the weights of the network. The main idea is to update the weights in the opposite direction of the gradient to reduce the loss.
+
+There are different types of gradient descent algorithms:
+- Batch Gradient Descent: Computes the gradient for the entire dataset and updates the weights after processing all data points.
+- Stochastic Gradient Descent (SGD): Computes the gradient and updates the weights after each training example. This leads to faster updates but can be noisier.
+- Mini-batch Gradient Descent: A compromise between batch and stochastic gradient descent, where the gradient is computed on small batches of data.
+
+The learning rate η controls the size of the updates. If the learning rate is too large, the updates might overshoot the optimal solution. If it is too small, the network might take too long to converge.
+
+6. Conclusion
+
+Training a neural network involves forward propagation, loss calculation, backpropagation, and optimization. By using backpropagation to calculate gradients and gradient descent to update the parameters, the neural network learns to improve its performance over time. In the next lesson, we will explore vectorization and efficiency techniques to speed up the training of neural networks.
+
+---
+
+Next Steps:
+- Review the key points discussed in this lesson.
+- Implement forward propagation and backpropagation from scratch using Python to gain hands-on experience.
+- Prepare for the next lesson on "Vectorization and Efficiency in Neural Networks," where we will learn how to optimize the training process.

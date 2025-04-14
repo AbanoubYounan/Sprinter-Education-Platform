@@ -1,0 +1,72 @@
+{
+    "course_id": "course_3",
+    "course_title": "Convolutional Neural Networks",
+    "metadata": {
+      "course_description": "In this course, you will learn how to build and apply Convolutional Neural Networks (CNNs) to solve real-world problems. CNNs are the driving force behind recent advances in computer vision. By the end of the course, you will understand the core components of CNNs, how to implement them in practice, and how to apply them to tasks such as image classification, object detection, and segmentation.",
+      "prerequisites": "Basic knowledge of deep learning and neural networks (Course 1 of the Deep Learning Specialization).",
+      "tags": ["Deep Learning", "AI", "Computer Vision", "Convolutional Neural Networks"]
+    },
+    "lessons": [
+      {
+        "lesson_id": "lesson_1",
+        "lesson_title": "Introduction to Convolutional Neural Networks",
+        "lesson_description": "This lesson introduces CNNs and explains how they work. You'll learn about the layers in a CNN, including convolutional layers, pooling layers, and fully connected layers.",
+        "content": "lesson_1_content.txt"
+      },
+      {
+        "lesson_id": "lesson_2",
+        "lesson_title": "Convolution Operations and Filters",
+        "lesson_description": "This lesson covers the mechanics of convolution operations and how filters (kernels) are applied to images to extract features.",
+        "content": "lesson_2_content.txt"
+      },
+      {
+        "lesson_id": "lesson_3",
+        "lesson_title": "Building a Convolutional Neural Network from Scratch",
+        "lesson_description": "Learn how to implement a CNN from scratch, starting with basic concepts and progressing to a full CNN architecture.",
+        "content": "lesson_3_content.txt"
+      },
+      {
+        "lesson_id": "lesson_4",
+        "lesson_title": "Pooling Layers and Flattening",
+        "lesson_description": "This lesson explores pooling operations (max-pooling and average-pooling) and how they help reduce the size of the feature maps while preserving important information.",
+        "content": "lesson_4_content.txt"
+      },
+      {
+        "lesson_id": "lesson_5",
+        "lesson_title": "Training Convolutional Neural Networks",
+        "lesson_description": "Learn how to train CNNs effectively by understanding concepts like backpropagation and gradient descent, and applying them to train a CNN.",
+        "content": "lesson_5_content.txt"
+      },
+      {
+        "lesson_id": "lesson_6",
+        "lesson_title": "Advanced CNN Architectures (VGG, ResNet, Inception)",
+        "lesson_description": "In this lesson, you'll explore popular CNN architectures such as VGG, ResNet, and Inception, and learn how they revolutionized the field of computer vision.",
+        "content": "lesson_6_content.txt"
+      },
+      {
+        "lesson_id": "lesson_7",
+        "lesson_title": "Transfer Learning and Fine-Tuning",
+        "lesson_description": "This lesson introduces the concept of transfer learning, and how you can use pre-trained CNNs for a new task with limited data.",
+        "content": "lesson_7_content.txt"
+      },
+      {
+        "lesson_id": "lesson_8",
+        "lesson_title": "Object Detection and Image Segmentation",
+        "lesson_description": "Learn about advanced applications of CNNs, including object detection (YOLO, SSD) and image segmentation (U-Net).",
+        "content": "lesson_8_content.txt"
+      },
+      {
+        "lesson_id": "lesson_9",
+        "lesson_title": "Improving CNN Performance",
+        "lesson_description": "This lesson covers techniques to improve the performance of CNNs, such as data augmentation, dropout, and fine-tuning.",
+        "content": "lesson_9_content.txt"
+      },
+      {
+        "lesson_id": "lesson_10",
+        "lesson_title": "Real-World Applications of Convolutional Neural Networks",
+        "lesson_description": "In this final lesson, you'll explore real-world applications of CNNs in fields like autonomous driving, medical imaging, and facial recognition.",
+        "content": "lesson_10_content.txt"
+      }
+    ]
+  }
+  

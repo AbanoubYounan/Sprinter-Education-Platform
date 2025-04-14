@@ -1,0 +1,53 @@
+Lesson 2: Convolution Operations and Filters
+
+Lesson Description:
+This lesson covers the mechanics of convolution operations and how filters (kernels) are applied to images to extract features.
+
+---
+
+1. What is Convolution?
+Convolution is a mathematical operation used in CNNs to extract features from input data, such as images. It involves applying a filter (or kernel) to an image by sliding the filter over the image and performing element-wise multiplication followed by summation.
+
+- The filter is a small matrix, typically 3x3, 5x5, or 7x7, that contains learnable parameters. The filter slides over the input image, performing convolution to extract features like edges, corners, and textures.
+
+2. How Does Convolution Work?
+In a convolution operation, the filter moves across the image in steps (also called strides). At each position, the filter multiplies its values by the corresponding values in the input image, and the results are summed to produce a single output value. This is repeated for each position of the filter over the image.
+
+- Example: If a 3x3 filter is applied to a 5x5 image, the filter will slide across the image and generate a 3x3 output (feature map) by performing element-wise multiplication and summation.
+
+3. Filter (Kernel) in CNNs
+A filter (or kernel) is a small matrix of values that detects specific features in an image. During training, the CNN learns the optimal values for these filters to detect patterns such as edges, textures, and shapes in the input data.
+
+- Each filter is designed to detect a specific feature. For example, one filter might detect horizontal edges, while another detects vertical edges.
+
+4. Types of Filters
+There are different types of filters used in CNNs, depending on the features they are designed to detect:
+
+- Edge Detection Filters: These filters highlight edges in an image. For example, the Sobel filter detects horizontal and vertical edges.
+- Feature Detection Filters: These filters detect more complex patterns, such as corners or textures.
+- Specialized Filters: Filters can be designed to detect other patterns, such as blobs, curves, or color changes.
+
+5. Stride in Convolution
+Stride refers to the number of pixels the filter moves when sliding over the image. A stride of 1 means the filter moves one pixel at a time, while a larger stride will skip over multiple pixels.
+
+- Small stride (stride = 1) leads to a large output size (feature map).
+- Large stride (stride > 1) reduces the output size but increases computational efficiency.
+
+6. Padding in Convolution
+Padding involves adding extra pixels (usually zeros) around the border of the input image before applying convolution. Padding helps preserve the spatial dimensions of the input image, ensuring that the filter can process the entire image, including the borders.
+
+- Zero Padding: The most common padding technique where zeros are added around the input image.
+
+7. Output Feature Map
+The result of applying a filter to the image is a feature map, also known as an activation map. The feature map represents the presence of certain features in the image and serves as the input to the next layer in the network.
+
+- Feature maps capture spatial information and are passed through activation functions to introduce non-linearity.
+
+8. Conclusion
+In this lesson, you learned about convolution operations and filters, which are the core components of Convolutional Neural Networks. You now understand how filters slide over images to detect features and how parameters like stride and padding affect the output.
+
+---
+
+Next Steps:
+- In the next lesson, we will explore pooling operations, such as max pooling and average pooling, which help reduce the size of feature maps and retain important information.
+- You will learn how pooling layers work together with convolutional layers to optimize the network’s performance.

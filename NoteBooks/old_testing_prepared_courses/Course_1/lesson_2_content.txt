@@ -1,0 +1,102 @@
+Lesson 2: Building Neural Networks
+
+Lesson Description:
+This lesson introduces you to the architecture of a neural network and explains how a simple feedforward neural network is constructed. You will also learn about the activation functions and how they influence the learning process.
+
+---
+
+Lesson Content:
+
+---
+
+Building Neural Networks
+
+1. Introduction to Neural Network Architecture
+
+A neural network is typically organized into layers. Each layer consists of neurons, which are connected to each other by weights. The architecture of a neural network determines how data flows through these layers and how computations are performed. The simplest form of neural network is the **feedforward neural network**, where information flows in one direction, from the input layer to the output layer, through one or more hidden layers.
+
+Here are the main components of a neural network architecture:
+
+- Input Layer: The first layer that receives the input data. Each neuron in the input layer corresponds to one feature in the input dataset.
+  
+- Hidden Layers: Layers between the input and output. These layers perform computations and transformations on the input data. The more hidden layers a network has, the "deeper" the network is considered to be (hence the term **deep learning**).
+  
+- Output Layer: The final layer that produces the model's predictions. In a classification problem, the output layer might use a softmax activation function to output probabilities for different classes.
+
+2. How a Feedforward Neural Network Works
+
+In a feedforward neural network, the data flows in one direction—from the input layer, through the hidden layers, and to the output layer. Here’s a step-by-step explanation of how data flows through the network:
+
+- Input Layer: Data is fed into the network, where each neuron represents one feature of the input data.
+  
+- Hidden Layers: Each hidden layer computes weighted sums of the inputs, adds a bias, and passes the result through an activation function. The activation function introduces non-linearity, which allows the network to learn complex patterns. 
+
+- Output Layer: The final output is computed by applying the appropriate activation function (e.g., softmax for classification, linear activation for regression). The output represents the model’s prediction.
+
+3. Activation Functions
+
+Activation functions are mathematical functions applied to the output of each neuron in the network. They help the network learn complex patterns by introducing non-linearity, which allows the model to approximate complex functions.
+
+Some commonly used activation functions include:
+
+- Sigmoid: Outputs values between 0 and 1, which makes it useful for binary classification problems.
+  
+  Formula: f(x) = 1 / (1 + e^(-x))
+
+- ReLU (Rectified Linear Unit): Outputs the input directly if it is positive, otherwise, it outputs zero. ReLU is widely used in deep networks because it helps mitigate the vanishing gradient problem.
+  
+  Formula: f(x) = max(0, x)
+
+- Tanh: Similar to the sigmoid function but outputs values between -1 and 1, which can help with gradient scaling.
+  
+  Formula: f(x) = (e^x - e^(-x)) / (e^x + e^(-x))
+
+- Softmax: Used in the output layer for multi-class classification problems. It converts the network's outputs into probabilities, where each output is between 0 and 1, and the sum of the outputs equals 1.
+  
+  Formula: f(x_i) = e^(x_i) / Σ(e^(x_j)) for each class j
+
+4. Weight Initialization
+
+Before training, the weights in a neural network are typically initialized randomly. This helps the network break symmetry and begin the training process. Some common methods for weight initialization include:
+
+- Random Initialization: Weights are initialized with random small values.
+  
+- Xavier Initialization: Designed to keep the variance of the activations and gradients similar across layers. This method is effective when using activation functions like sigmoid or tanh.
+  
+- He Initialization: A method specifically designed for ReLU activations. It scales the weights based on the number of input neurons to avoid the exploding or vanishing gradient problem.
+
+5. Building a Neural Network from Scratch
+
+Let’s now break down how you can build a simple neural network:
+
+1. Define the Network Architecture:
+   - Decide on the number of layers and the number of neurons in each layer.
+   - For a simple network, you might choose 1 hidden layer with 4 neurons.
+
+2. Initialize the Weights and Biases:
+   - Randomly initialize the weights for each layer.
+   - Set biases to small values.
+
+3. Forward Propagation:
+   - For each training example, calculate the activations for each layer by applying the weights, adding the biases, and passing the result through an activation function.
+
+4. Compute the Loss:
+   - Calculate the error between the model’s prediction and the true output using a loss function (e.g., mean squared error for regression or cross-entropy for classification).
+
+5. Backward Propagation:
+   - Using the loss, compute the gradients of the loss with respect to the weights and biases.
+   - Update the weights and biases using an optimization technique like gradient descent.
+
+6. Repeat the Process:
+   - Repeat the forward propagation, loss calculation, and backward propagation steps for multiple iterations (epochs) until the network converges to a good solution.
+
+6. Conclusion
+
+In this lesson, we introduced the architecture of a feedforward neural network and explained the role of the layers, activation functions, and weight initialization. Understanding these components is essential for building and training neural networks effectively. In the next lesson, we will dive deeper into training neural networks, exploring forward and backward propagation in detail, and how optimization techniques are used to improve network performance.
+
+---
+
+Next Steps:
+- Review the key points discussed in this lesson.
+- Experiment with building a simple feedforward neural network using Python and a deep learning library like TensorFlow or PyTorch.
+- Prepare for the next lesson on "Training Neural Networks," where we will explore the forward and backward propagation algorithms in detail.

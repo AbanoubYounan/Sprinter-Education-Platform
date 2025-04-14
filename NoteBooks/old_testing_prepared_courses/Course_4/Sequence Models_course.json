@@ -1,0 +1,72 @@
+{
+    "course_id": "course_4",
+    "course_title": "Sequence Models",
+    "metadata": {
+      "course_description": "In this course, you will learn how to build and train models for sequence data such as time series and natural language. You will explore Recurrent Neural Networks (RNNs), LSTM (Long Short-Term Memory) networks, GRUs (Gated Recurrent Units), and Sequence-to-Sequence models. By the end of the course, you'll be able to apply these models to tasks such as speech recognition, language modeling, and machine translation.",
+      "prerequisites": "Basic knowledge of deep learning and neural networks (Course 1 of the Deep Learning Specialization).",
+      "tags": ["Deep Learning", "AI", "Sequence Models", "RNN", "LSTM", "GRU", "Time Series", "Natural Language Processing"]
+    },
+    "lessons": [
+      {
+        "lesson_id": "lesson_1",
+        "lesson_title": "Introduction to Sequence Models",
+        "lesson_description": "This lesson introduces sequence models, explains the importance of processing sequential data, and discusses the basic types of sequence models such as RNNs.",
+        "content": "lesson_1_content.txt"
+      },
+      {
+        "lesson_id": "lesson_2",
+        "lesson_title": "Recurrent Neural Networks (RNNs)",
+        "lesson_description": "Learn about Recurrent Neural Networks (RNNs), how they work, and how they are used for tasks involving sequences.",
+        "content": "lesson_2_content.txt"
+      },
+      {
+        "lesson_id": "lesson_3",
+        "lesson_title": "Vanishing and Exploding Gradients in RNNs",
+        "lesson_description": "This lesson covers the issues of vanishing and exploding gradients in RNNs, and how they affect training deep models on sequences.",
+        "content": "lesson_3_content.txt"
+      },
+      {
+        "lesson_id": "lesson_4",
+        "lesson_title": "Long Short-Term Memory (LSTM) Networks",
+        "lesson_description": "Learn about Long Short-Term Memory (LSTM) networks, a type of RNN designed to solve the vanishing gradient problem, and how they are applied to sequence-based tasks.",
+        "content": "lesson_4_content.txt"
+      },
+      {
+        "lesson_id": "lesson_5",
+        "lesson_title": "Gated Recurrent Units (GRUs)",
+        "lesson_description": "This lesson covers Gated Recurrent Units (GRUs), an alternative to LSTMs, and discusses their similarities and differences.",
+        "content": "lesson_5_content.txt"
+      },
+      {
+        "lesson_id": "lesson_6",
+        "lesson_title": "Sequence-to-Sequence Models",
+        "lesson_description": "Learn about Sequence-to-Sequence models, which are used for tasks such as machine translation, and how they are built using RNNs, LSTMs, and GRUs.",
+        "content": "lesson_6_content.txt"
+      },
+      {
+        "lesson_id": "lesson_7",
+        "lesson_title": "Applications of Sequence Models",
+        "lesson_description": "In this lesson, we explore the real-world applications of sequence models such as speech recognition, machine translation, and text generation.",
+        "content": "lesson_7_content.txt"
+      },
+      {
+        "lesson_id": "lesson_8",
+        "lesson_title": "Attention Mechanism",
+        "lesson_description": "Learn about the attention mechanism, which allows models to focus on different parts of the input sequence when making predictions, significantly improving performance in tasks like machine translation.",
+        "content": "lesson_8_content.txt"
+      },
+      {
+        "lesson_id": "lesson_9",
+        "lesson_title": "Bidirectional RNNs and Deep RNNs",
+        "lesson_description": "This lesson covers bidirectional RNNs, which process input data in both forward and backward directions, and deep RNNs, which have multiple layers to capture more complex features.",
+        "content": "lesson_9_content.txt"
+      },
+      {
+        "lesson_id": "lesson_10",
+        "lesson_title": "Advanced Sequence Models: Transformers",
+        "lesson_description": "Learn about the Transformer model, an advanced architecture that has revolutionized sequence modeling, particularly in natural language processing tasks such as language translation and text generation.",
+        "content": "lesson_10_content.txt"
+      }
+    ]
+  }
+  

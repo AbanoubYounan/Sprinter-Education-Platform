@@ -1,0 +1,47 @@
+{
+  "course_id": "course_2",
+  "course_title": "Improving Deep Neural Networks: Hyperparameter Tuning, Regularization, and Optimization",
+  "metadata": {
+    "course_description": "In this course, you will learn how to improve deep neural networks by using techniques such as hyperparameter tuning, regularization, and optimization. By the end of the course, you will understand how to optimize and regularize deep neural networks, how to use various optimization algorithms to improve training, and how to apply hyperparameter tuning and other strategies to enhance model performance. This course will take you deeper into the world of deep learning and show you practical tools to help you build more powerful neural networks.",
+    "prerequisites": "Basic knowledge of deep learning and neural networks (Course 1 of the Deep Learning Specialization).",
+    "tags": ["Deep Learning", "AI", "Hyperparameter Tuning", "Optimization", "Regularization"]
+  },
+  "lessons": [
+    {
+      "lesson_id": "lesson_1",
+      "lesson_title": "Introduction to Deep Learning and Optimization",
+      "lesson_description": "This lesson introduces the basic optimization algorithms used in deep learning and the process of iteratively training neural networks to minimize the cost function.",
+      "content": "lesson_1_content.txt"
+    },
+    {
+      "lesson_id": "lesson_2",
+      "lesson_title": "Hyperparameter Tuning and Model Selection",
+      "lesson_description": "In this lesson, you will learn how to tune hyperparameters and use techniques like grid search and cross-validation to select the best model for your data.",
+      "content": "lesson_2_content.txt"
+    },
+    {
+      "lesson_id": "lesson_3",
+      "lesson_title": "Optimization Algorithms: Gradient Descent and Beyond",
+      "lesson_description": "This lesson covers optimization algorithms, including Gradient Descent, Mini-batch Gradient Descent, and more advanced methods like Momentum and Adam.",
+      "content": "lesson_3_content.txt"
+    },
+    {
+      "lesson_id": "lesson_4",
+      "lesson_title": "Regularization Techniques",
+      "lesson_description": "Learn how to prevent overfitting in deep neural networks by applying regularization techniques such as L2 regularization, Dropout, and Data Augmentation.",
+      "content": "lesson_4_content.txt"
+    },
+    {
+      "lesson_id": "lesson_5",
+      "lesson_title": "Batch Normalization and Advanced Optimization Techniques",
+      "lesson_description": "Explore how Batch Normalization improves the optimization process and learn about additional optimization strategies to accelerate training and improve model performance.",
+      "content": "lesson_5_content.txt"
+    },
+    {
+      "lesson_id": "lesson_6",
+      "lesson_title": "Practical Tips and Tricks for Neural Network Optimization",
+      "lesson_description": "In this final lesson, you will learn practical tips for tuning neural networks, preventing overfitting, and ensuring optimal model performance.",
+      "content": "lesson_6_content.txt"
+    }
+  ]
+}

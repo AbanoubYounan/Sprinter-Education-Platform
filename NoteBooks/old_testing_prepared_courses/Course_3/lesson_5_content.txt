@@ -1,0 +1,72 @@
+Lesson 5: Training Convolutional Neural Networks
+
+Lesson Description:
+Learn how to train CNNs effectively by understanding concepts like backpropagation and gradient descent, and applying them to train a CNN.
+
+---
+
+1. The Training Process
+Training a Convolutional Neural Network (CNN) involves iteratively updating the model's weights to minimize the cost function. This process is accomplished through backpropagation and gradient descent.
+
+- The goal of training is to reduce the loss, which is the discrepancy between the model's predictions and the actual labels.
+- The two main components in training are forward propagation and backpropagation.
+
+2. Forward Propagation
+Forward propagation refers to passing the input data through the layers of the network to get the output (predictions).
+
+- The input data is passed through each layer: convolutional layers, pooling layers, and fully connected layers.
+- At the output layer, the model generates predictions, which are compared to the actual values to calculate the loss.
+
+3. Backpropagation
+Backpropagation is the process of computing the gradient of the loss with respect to each weight in the network and updating the weights accordingly.
+
+- The network computes the error at the output and propagates this error backward through the network.
+- The weights are adjusted using gradient descent to minimize the error and improve the model’s predictions.
+
+4. Gradient Descent in CNNs
+Gradient descent is used to update the weights in the network during training. The basic idea is to compute the gradient of the loss function with respect to the weights and move in the direction that reduces the loss.
+
+- The learning rate is a hyperparameter that controls the size of the steps taken in each iteration. A high learning rate can lead to overshooting, while a low learning rate may result in slow convergence.
+- The gradient is computed using backpropagation, and the weights are updated using the formula: 
+  - `w = w - (learning_rate * gradient)`
+
+5. Stochastic Gradient Descent (SGD)
+Stochastic Gradient Descent (SGD) is a variation of gradient descent where the model is updated after each training example rather than after processing the entire batch.
+
+- This leads to faster updates and can help the model escape local minima, but it also introduces noise into the training process.
+- It’s often more efficient in terms of computational resources compared to using the entire batch for each update.
+
+6. Mini-batch Gradient Descent
+Mini-batch gradient descent is a combination of batch gradient descent and stochastic gradient descent. Instead of updating the weights after each training example or the whole dataset, mini-batch gradient descent uses small subsets (mini-batches) of the data to update the weights.
+
+- It strikes a balance between the high variance of SGD and the computational inefficiency of batch gradient descent.
+- Mini-batch size is typically between 32 and 256 samples.
+
+7. Loss Functions
+The choice of loss function is important in CNN training because it determines how the model's performance is evaluated. Common loss functions used in CNNs include:
+
+- Cross-Entropy Loss: Used for classification problems, especially with multiple classes.
+- Mean Squared Error (MSE): Used for regression tasks where the output is continuous.
+
+The loss function guides the optimization process by providing feedback on how well the model is performing.
+
+8. Regularization During Training
+Regularization techniques help prevent overfitting and ensure that the model generalizes well to unseen data. Common regularization methods include:
+
+- Dropout: Randomly drops units (neurons) during training to prevent overfitting.
+- L2 Regularization (Weight Decay): Adds a penalty to the loss function based on the size of the weights, encouraging the network to learn smaller weights.
+
+9. Evaluating Model Performance
+After training the model, it’s important to evaluate its performance on a separate validation set. This helps determine how well the model generalizes to unseen data and if it’s overfitting.
+
+- Metrics such as accuracy (for classification) or mean squared error (for regression) can be used to evaluate performance.
+- Cross-validation can be used to ensure that the model’s performance is consistent across different subsets of the data.
+
+10. Conclusion
+In this lesson, you learned about the training process for Convolutional Neural Networks. You explored key concepts like forward propagation, backpropagation, gradient descent, and various optimization techniques. You also learned about regularization and how to evaluate model performance.
+
+---
+
+Next Steps:
+- In the next lesson, we will explore popular CNN architectures such as VGG, ResNet, and Inception, and understand how these architectures improve the performance of CNNs.
+- You will learn how to implement these architectures and apply them to real-world problems.
