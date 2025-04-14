@@ -1,6 +1,7 @@
 'use client';
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import {
-  Dialog, DialogTitle, DialogContent, IconButton, Box, Typography
+  Dialog, DialogTitle, DialogContent, IconButton
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect, useState } from 'react';

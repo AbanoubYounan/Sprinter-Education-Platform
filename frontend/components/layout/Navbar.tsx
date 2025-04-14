@@ -15,7 +15,7 @@ type DecodedUser = {
 };
 
 const Navbar = () => {
-  const { open, mode, setMode, openModal, closeModal } = useAuthModal();
+  const { open, mode, openModal, closeModal } = useAuthModal();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   // const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -39,7 +39,7 @@ const Navbar = () => {
         setUser(decoded);
       }
     } catch (err) {
-      console.error("Invalid token");
+      console.error("Invalid token", err);
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       setUser(null);

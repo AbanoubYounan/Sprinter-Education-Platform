@@ -1,4 +1,5 @@
 'use client';
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { useAuthModal } from '@/context/AuthModalContext';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';

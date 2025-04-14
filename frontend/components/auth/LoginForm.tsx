@@ -1,4 +1,5 @@
 'use client';
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { Box, Button, TextField, Typography, Alert } from '@mui/material';
 import axios from 'axios';

@@ -1,8 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import GetStarted from "../components/sections/GetStarted";  // Import GetStarted component
-import LearnMore from "../components/sections/LearnMore";    // Import LearnMore component
 
 export default function Home() {
   return (
