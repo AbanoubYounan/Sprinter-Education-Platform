@@ -5,6 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { Box, Typography, Alert, Button, CircularProgress } from '@mui/material';
+const ENV_MODE = process.env.NEXT_PUBLIC_ENV_MODE
+const DEV_DOMAIN_NAME = process.env.NEXT_PUBLIC_DEV_DOMAIN_NAME
+const PRO_DOMAIN_NAME = process.env.NEXT_PUBLIC_PRO_DOMAIN_NAME
 
 export default function VerifyEmailClient() {
   const router = useRouter();
@@ -23,7 +26,7 @@ export default function VerifyEmailClient() {
 
     const verifyEmail = async () => {
       try {
-        const res = await axios.post('http://127.0.0.1:5000/api/auth/verify-email', {
+        const res = await axios.post(`${ENV_MODE=='DEV'?DEV_DOMAIN_NAME:PRO_DOMAIN_NAME}api/auth/verify-email`, {
           Token: token,
         });
 

@@ -29,7 +29,7 @@ export default function LoginForm({ onSwitch, setUser, handleClose }: { onSwitch
 
     try {
       setLoading(true);
-      const res = await axios.post(`${ENV_MODE=='DEV'?DEV_DOMAIN_NAME:PRO_DOMAIN_NAME}/api/auth/login`, {
+      const res = await axios.post(`${ENV_MODE=='DEV'?DEV_DOMAIN_NAME:PRO_DOMAIN_NAME}api/auth/login`, {
         Email: form.email,
         Password: form.password,
       });

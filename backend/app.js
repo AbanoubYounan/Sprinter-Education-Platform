@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 
-const allowedOrigins = ["http://localhost:3010", "http://sprinter.mes-design.com/"]; // Only allow our frontend
+const allowedOrigins = ["http://localhost:3010", "http://sprinter.mes-design.com/", "https://sprinter.mes-design.com"]; // Only allow our frontend
 
 app.use(
   cors({
