@@ -1,4 +1,5 @@
 // app/verify-email/page.tsx
+'use client';
 import { Suspense } from 'react';
 import VerifyEmailClient from './VerifyEmailClient';
 
