@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-indigo-500 to-blue-600 text-white p-6">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300 text-gray-900 p-6">
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -13,7 +13,7 @@ export default function Home() {
       >
         {/* Logo with drop shadow and animation */}
         <img
-          src="https://sprintscdn.azureedge.net/production/files/174321119867e74abe1c45d.svg"
+          src="/sprints-logo.svg"
           alt="Sprints Logo"
           style={{ width: "120px", height: "32px" }} // Logo style for proper size
           className="mx-auto mb-6 drop-shadow-2xl"
@@ -24,7 +24,7 @@ export default function Home() {
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight text-yellow-200"
+          className="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight text-gray-800"
         >
           Welcome to Sprinter Education Platform
         </motion.h1>
@@ -34,7 +34,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1 }}
-          className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-8 opacity-80"
+          className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-8"
         >
           Accelerate your learning journey with expert-led courses, personalized pathways, and collaborative projects. Unlock your potential with us!
         </motion.p>

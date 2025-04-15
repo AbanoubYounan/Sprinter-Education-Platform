@@ -70,9 +70,12 @@ const Navbar = () => {
           <Typography variant="body1" onClick={() => { router.push("/courses");}} className="cursor-pointer text-gray-700 hover:text-black">
             Courses
           </Typography>
-          <Typography variant="body1" className="cursor-pointer text-gray-700 hover:text-black">
-            Hire Our Graduates
-          </Typography>
+          {
+            user &&
+            <Typography variant="body1" onClick={() => { router.push("/chat");}}  className="cursor-pointer text-gray-700 hover:text-black">
+              Chat with Sprinter
+            </Typography>
+          }
         </Box>
 
         {/* Right - Auth Buttons or User */}

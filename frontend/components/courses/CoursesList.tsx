@@ -36,7 +36,6 @@ const CoursesList = () => {
             openModal('login');
             return;
         }
-        console.log("ENV", ENV_MODE, DEV_DOMAIN_NAME, PRO_DOMAIN_NAME)
         // If not enrolled, make the enroll request
         if (course.enrollment_status === 'Not Enrolled') {
             try {
@@ -49,12 +48,16 @@ const CoursesList = () => {
                         }
                     }
                 );
-
-                alert(response.data.Message || "Enrolled successfully!");
-
-                // Optionally update the course status here (e.g., via useState or refetch)
-                // setCourseStatus('Enrolled');
-
+                if(response.status == 201){
+                    setCourses(prevCourses =>
+                        prevCourses.map(c =>
+                            c.course_ID === course.course_ID
+                                ? { ...c, enrollment_status: 'Active' }
+                                : c
+                        )
+                    );
+                }
+                
             } catch (error: any) {
                 const message = error?.response?.data?.Message || "Enrollment failed";
                 alert(message);
