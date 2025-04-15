@@ -199,7 +199,12 @@ def fallback_for_request(tutor, state, request) -> str:
 
 def converse_for_request(tutor, state, request) -> str:
         context = state.get("context", "")
+        chat_history = state.get("db_history", "")
         prompt = f"""
+        User Conversation History:
+        {chat_history}
+
+        Context of the current conversation:
         {context}
         
         The user's latest input: {state['user_input']}
