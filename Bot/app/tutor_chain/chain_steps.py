@@ -60,7 +60,7 @@ def analyze_input_with_llm(tutor, state) -> dict:
         Sometimes users may ask for a recommendation and then later indicate they have taken a course; in that case, output separate actionable requests for both:
         one for recommending a course and one for marking a course as completed.
 
-        Available courses: ['intro to python', 'web dev with django', 'data science with pandas', 'machine learning basics']
+        Available courses: {tutor.course_names}
         Common interests: ['programming', 'web development', 'data science', 'machine learning', 'artificial intelligence', 'python']
         Possible intents: ['explanation', 'example', 'quiz', 'simplify', 'recommendation', 'course_completion', 'reference_history', 'conversation', 'pdf_search']
         Available tools: ExplainConcept, GiveExample, GenerateQuiz, SimplifyConcept, RecommendCourses, CourseCompletion, Converse, pdfSearch

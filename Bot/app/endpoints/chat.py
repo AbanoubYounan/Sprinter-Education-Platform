@@ -94,7 +94,8 @@ def chat_endpoint(
             "context_references": {},
             "should_exit": False,
             "history": [],
-            "files": {}
+            "files": {},
+            "course_names": tutor_chain_instance.course_names
         }
         session_obj = sm.create_session(user_id=user_id, initial_state=initial_state)
     
