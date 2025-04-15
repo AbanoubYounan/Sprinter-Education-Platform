@@ -181,35 +181,30 @@ def build_context_node(tutor, state) -> dict:
     history = state.get('db_history', [])
     current_query = state.get('user_input', "")
     
-    # Use retrieve_relevant_history to extract the most pertinent parts (using top 5 interactions)
+    # Give more importance to the current user input, but still use recent context (top_n=5)
     context_history = retrieve_relevant_history(history, current_query, top_n=5)
-    # print("chat history", context_history)
+
+    # Build the initial context string by giving more emphasis to the user input
+    initial_context = f"User's Current Input: {current_query}\n\nRelevant Conversation History:\n{context_history}\n"
     
-    # Build the initial context string with the relevant history and current input
-    initial_context = f"Relevant Conversation History:\n{context_history}\n\nUser's Current Input: {current_query}\n"
-    
-    # print(initial_context)
-    
-    # Build a prompt that instructs the LLM to filter out redundant details,
-    # returning only the important context needed to answer the query.
     refined_prompt = f"""
     You are an assistant specialized in summarizing conversation context.
     
     Given the following conversation context, please extract only the essential details that are necessary to answer the user's query.
     Do not include any unnecessary or redundant information.
-    extract only what the user want.
-    You'll find a conversation between the user and his current query based on both extract what the user wants now only and if there is unfifiled requests that needs to be fulfilled still based on his query if he's asking for it
+    Focus primarily on the user's current input and include only context that directly relates to it.
     
     Conversation Context:
     {initial_context}
     
     Return only the refined context now.
     """
-    # Invoke the LLM with the prompt to obtain the refined context.
+    
+    # Invoke the LLM to get the refined context
     response = tutor.log_and_invoke([{"role": "user", "content": refined_prompt}], tool_name="build_context_node")
     refined_context = response.content.strip()
     
-    # Update the state with the refined context.
+    # Update the state with the refined context
     state["context"] = refined_context
     return state
 
