@@ -1,0 +1,78 @@
+🎓 Course Title: OpenCV Python Tutorial For Beginners
+📄 Course Description:
+This hands-on course introduces you to OpenCV, the most popular computer vision library, using the Python programming language. You'll start by learning how to read, display, and manipulate images, then progress to more advanced topics like drawing shapes, working with videos, and performing real-time image operations.
+
+Through practical examples and beginner-friendly lessons, this course makes it easy to get started with OpenCV—even if you’ve never worked with images before.
+
+=======================================================================
+✅ What Will You Learn?
+How to install and set up OpenCV in Python
+
+How to read, display, and save images
+
+Drawing shapes, adding text, and basic manipulations
+
+Working with videos and accessing webcams
+
+Image transformation and filtering
+
+Real-time processing using OpenCV
+=======================================================================
+👥 Who This Course Is For?
+Beginners with no prior experience in computer vision
+
+Python developers looking to expand into image processing
+
+AI and ML learners seeking practical OpenCV skills
+
+Students working on vision-related academic projects
+
+Anyone curious about building computer vision applications
+=======================================================================
+📘 Chapter 1: Getting Started with OpenCV
+📄 Chapter Description: In this chapter, you'll learn the basics of using OpenCV with Python, including how to install the library, read and display images, and perform simple drawing tasks. This chapter is your first step into the world of computer vision.
+
+🔹 Lesson 1: Installing OpenCV and Setting Up the Environment
+Description:
+Learn how to install OpenCV using pip and set up your Python environment (IDE or Jupyter Notebook) for computer vision development.
+Link: https://www.youtube.com/watch?v=kdLM6AOd2vc&list=PLS1QulWo1RIa7D1O6skqDQ-JZ1GGHKK-K
+Duration: 6
+
+🔹 Lesson 2: Reading, Displaying, and Saving Images
+Description:
+Explore how to load images using cv2.imread(), display them using cv2.imshow(), and save processed images to disk with cv2.imwrite().
+Link: https://www.youtube.com/watch?v=d3AT9EGp4iw&list=PLS1QulWo1RIa7D1O6skqDQ-JZ1GGHKK-K&index=2
+Duration: 10
+
+
+🔹 Lesson 3: Drawing Shapes and Adding Text
+Description:
+Discover how to draw rectangles, circles, lines, and add text to images using OpenCV’s built-in drawing functions like cv2.rectangle() and cv2.putText().
+Link: https://www.youtube.com/watch?v=TGQcDaZ56ao&list=PLS1QulWo1RIa7D1O6skqDQ-JZ1GGHKK-K&index=3
+Duration: 18
+
+=====================================================================
+📘 Chapter 2: Working with Videos and Image Operations
+📄 Chapter Description:
+This chapter dives deeper into OpenCV capabilities by introducing video processing and real-time image operations. You'll learn to read video files, capture webcam input, and apply simple transformations to images.
+
+🔹 Lesson 4: Reading and Writing Videos
+Description:
+Learn how to capture video from files and webcams using cv2.VideoCapture() and how to write video output using cv2.VideoWriter().
+Link: https://www.youtube.com/watch?v=cGmGOi2kkJ4&list=PLS1QulWo1RIa7D1O6skqDQ-JZ1GGHKK-K&index=4
+Duration: 8
+
+🔹 Lesson 5: Image Resizing, Cropping, and Flipping
+Description:
+Explore practical image operations like resizing (cv2.resize()), cropping using array slicing, and flipping images horizontally or vertically with cv2.flip().
+Link:https://www.youtube.com/watch?v=-RtVZsCvXAQ&list=PLS1QulWo1RIa7D1O6skqDQ-JZ1GGHKK-K&index=5
+Duration: 17 
+
+🔹 Lesson 6: Color Spaces and Conversions
+Description:
+Understand how to convert images between color spaces such as BGR to Grayscale, HSV, or RGB using cv2.cvtColor()—a fundamental skill for image analysis.
+Link: https://www.youtube.com/watch?v=V1aMDD5583k&list=PLS1QulWo1RIa7D1O6skqDQ-JZ1GGHKK-K&index=6
+Duration: 16
+
+
+====================================================================

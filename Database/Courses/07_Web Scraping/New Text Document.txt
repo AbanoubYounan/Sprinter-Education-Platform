@@ -1,0 +1,47 @@
+Course Title:
+Mastering Web Scraping with Python
+
+Course Description:
+Learn how to collect and automate web data using Python. This course covers HTML inspection, data extraction with BeautifulSoup, and real-world scraping projects
+
+Who This Course is For:
+-	Beginners in data science or web automation
+-	Python learners looking for practical projects
+-	Anyone needing structured web data for analysis
+
+What You Will Learn:
+-	HTML structure and inspection tools
+-	Using BeautifulSoup to scrape data
+-	Working with tags, classes, and attributes
+-	Extracting tables and exporting to CSV
+-	Building real scraping workflows with Pandas
+
+----------------------------------------------------------------------------------------------------------------
+Chapter 1:Foundations of Web Scraping 
+
+Description:Get started with web scraping by learning how the web works, inspecting HTML, and setting up the tools needed to extract online data.
+
+Lesson 1:Introduction to Web Scraping and HTML Structure
+Description:Understand what web scraping is, how websites are built, and how to inspect HTML tags using browser developer tools.
+Link: https://www.youtube.com/watch?v=bargNl2WeN4&list=PLUaB-1hjhk8G-xVXA5FxT2cLNzd87GInr
+Duration: 6
+
+Lesson 2:Setting Up Your Python Environment
+Description: Install Python, set up your development environment, and install libraries like requests and BeautifulSoup.
+Link:https://www.youtube.com/watch?v=q-kbzWjyPak&list=PLUaB-1hjhk8G-xVXA5FxT2cLNzd87GInr&index=2 
+Duration:5
+
+----------------------------------------------------------------------------------------------------------------
+Chapter 2:Navigating and Extracting Data
+
+Description:Learn how to extract meaningful information from HTML using tags, attributes, and structure. This chapter builds the foundation for targeting and parsing data with precision.
+
+Lesson 3 :  Finding HTML Elements with find() and find_all()
+Description: Discover how to locate specific HTML tags and elements using find() and find_all(). Learn how to filter by tag, class, and attributes to pull out just the data you need.
+Link:https://www.youtube.com/watch?v=xjA1HjvmoMY&list=PLUaB-1hjhk8G-xVXA5FxT2cLNzd87GInr&index=3
+Duration: 12
+
+Lesson 4 :  Scraping Tables into Pandas DataFrames
+Scrape structured data from real-world websites like Wikipedia, load it into a clean pandas DataFrame, and export it to CSV for use in analysis.
+Link:https://www.youtube.com/watch?v=8dTpNajxaH0&list=PLUaB-1hjhk8G-xVXA5FxT2cLNzd87GInr&index=4
+Duration:25

@@ -1,0 +1,81 @@
+Course Title:
+Mastering Natural Language Processing (NLP) with Python
+
+Course Description:
+This comprehensive course is designed to take learners from the foundational concepts of Natural Language Processing to advanced applications using Python. Through hands-on lessons and practical examples, you will learn how machines understand, interpret, and generate human language. Whether you're looking to build chatbots, perform sentiment analysis, or dive into language modeling, this course equips you with the skills needed to succeed in the world of NLP.
+
+Who This Course is For:
+-	Aspiring data scientists and machine learning engineers
+-	Developers interested in integrating NLP into applications
+-	Students and researchers exploring linguistic data
+-	Professionals transitioning to AI roles
+
+What You Will Learn:
+-	The foundations and core principles of NLP
+-	Text preprocessing and feature extraction
+-	NLP libraries: NLTK, spaCy, Transformers
+-	Building NLP pipelines and models
+-	Text classification, sentiment analysis, and topic modeling
+-	Named entity recognition and part-of-speech tagging
+-	Sequence models and language modeling
+-	Deploying NLP applications in the real world
+
+----------------------------------------------------------------------------------------------------------------
+Chapter 1: Foundations of NLP
+
+Description: This chapter introduces the fundamentals of NLP, language structure, and core tools used to manipulate and analyze text data.
+
+Lesson 1: Text Classification and Sentiment Analysis
+Description: Learn how to train models to categorize text and detect sentiment, using datasets like IMDb and Twitter data.
+Link: https://www.youtube.com/watch?v=R-AG4-qZs1A&list=PLeo1K3hjS3uuvuAXhYjV2lMEShq2UYSwX
+Duration: 10
+
+Lesson 2: Named Entity Recognition (NER) and POS Tagging
+Description: Explore how to extract structured information from unstructured text using NER and understand grammatical roles using POS tagging.
+Link: https://www.youtube.com/watch?v=3y2-IaBeIs0&list=PLeo1K3hjS3uuvuAXhYjV2lMEShq2UYSwX&index=2
+Duration: 7
+
+Lesson 3:  Topic Modeling and Text Summarization
+Description: Get hands-on with uncovering themes in large corpora and summarizing long texts using models like LDA and TextRank.
+Link: https://www.youtube.com/watch?v=lK9gx4q_vfI&list=PLeo1K3hjS3uuvuAXhYjV2lMEShq2UYSwX&index=3
+Duration: 44
+
+----------------------------------------------------------------------------------------------------------------
+Chapter 2: Core NLP Tasks and Models
+
+Description: This chapter covers the most widely used tasks and models in NLP, equipping learners to perform real-world language analysis
+
+Lesson 4 : Word Embeddings and Transformer Models
+Description: Understand word vector representations, BERT, and transformer-based models, and how they revolutionized NLP.
+Link: https://www.youtube.com/watch?v=nknYY32RGXQ&list=PLeo1K3hjS3uuvuAXhYjV2lMEShq2UYSwX&index=4
+Duration: 13
+
+Lesson 5 : Sequence Modeling and Language Generation
+Description: Learn to generate text, translate languages, and build auto-completion systems using RNNs and Transformers.
+Link: https://www.youtube.com/watch?v=In7jB8TUGPA&list=PLeo1K3hjS3uuvuAXhYjV2lMEShq2UYSwX&index=5
+Duration: 23
+
+Lesson 6: Building and Deploying NLP Applications
+Description: Combine all learned concepts to build, evaluate, and deploy NLP solutions using APIs, Flask, and Docker.
+Link: https://www.youtube.com/watch?v=S3EId9uatxI&list=PLeo1K3hjS3uuvuAXhYjV2lMEShq2UYSwX&index=6
+Duration: 26
+----------------------------------------------------------------------------------------------------------------
+Chapter 3: Advanced NLP and Applications
+
+Description: This final chapter introduces cutting-edge techniques in NLP and how to integrate them into real-world applications.
+
+Lesson 7: Word Embeddings and Transformer Models
+Description: Understand word vector representations, BERT, and transformer-based models, and how they revolutionized NLP.
+Link: https://www.youtube.com/watch?v=h2kBNEShsiE&list=PLeo1K3hjS3uuvuAXhYjV2lMEShq2UYSwX&index=7
+Duration: 15
+
+Lesson 8: Sequence Modeling and Language Generation
+Description: Learn to generate text, translate languages, and build auto-completion systems using RNNs and Transformers.
+Link: https://www.youtube.com/watch?v=_lR3RjvYvF4&list=PLeo1K3hjS3uuvuAXhYjV2lMEShq2UYSwX&index=8
+Duration: 36
+
+Lesson 9: Building and Deploying NLP Applications
+Description: Combine all learned concepts to build, evaluate, and deploy NLP solutions using APIs, Flask, and Docker.
+Link: https://www.youtube.com/watch?v=hKK59rfpXL0&list=PLeo1K3hjS3uuvuAXhYjV2lMEShq2UYSwX&index=9
+Duration: 19
+----------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,63 @@
+Chapter 1: Foundations of Computer Vision and Image Processing
+
+Chapter Description:
+This chapter builds the groundwork for working with visual data by introducing the fundamental concepts of computer vision and digital image processing. You’ll explore how machines see images, how images are structured, and how to prepare them for analysis using basic techniques.
+
+
+Lesson 1: Introduction to Computer Vision
+Description : This lesson introduces the basics of computer vision, guiding you through the core steps of image analysis and preprocessing. It sets the foundation for working with visual data in AI applications.
+Link : https://www.youtube.com/watch?v=yetsJWgYh0o&list=PLwdnzlV3ogoVsma5GmBSsgJM6gHv1QoAo&index=2
+Duration: 45
+
+Lesson 2:  Introduction to Digital Image Processing
+Description : This lesson introduces the basics of computer vision, guiding you through the core steps of image analysis and preprocessing. It sets the foundation for working with visual data in AI applications.
+Link : https://www.youtube.com/watch?v=1I6kfkY4GyQ&list=PLwdnzlV3ogoVsma5GmBSsgJM6gHv1QoAo&index=3
+Duration: 55
+=======================================================================================================================
+Chapter 2: Image Filtering and Edge Detection
+
+Chapter Description:
+In this chapter, you'll dive into key techniques used to enhance images and extract important features. You’ll explore spatial filtering methods to sharpen or smooth images and understand how edge detection reveals object boundaries. These are critical steps in preparing images for recognition and analysis.
+
+Lesson 3: Image Filtering Techniques
+Description: This lesson covers the most common image filtering methods used to improve image quality and highlight specific features.
+Link: https://www.youtube.com/watch?v=ch1xdUFABA8&list=PLwdnzlV3ogoVsma5GmBSsgJM6gHv1QoAo&index=4
+Duration: 41
+
+Lesson 4: Edge Detection and Feature Extraction
+Description: This lesson focuses on detecting object boundaries and extracting essential features from images using various edge detection algorithms.
+Link: https://www.youtube.com/watch?v=g0rPvQvTLGQ&list=PLwdnzlV3ogoVsma5GmBSsgJM6gHv1QoAo&index=5
+Duration: 48
+
+==========================================================================================================================
+🎓 Course Title: Introduction to Computer Vision and Image Processing
+📄 Course Description:
+This course is designed to introduce learners to the fascinating world of computer vision and digital image processing. You'll start with the foundational concepts of how machines understand visual information, then dive deeper into the techniques used to process, filter, and extract features from images. With a mix of theory and practical knowledge, this course prepares you for advanced topics in AI, robotics, and visual recognition systems.
+
+Throughout the course, you'll gain hands-on understanding of how images are represented digitally, how to enhance them through filtering, and how to extract meaningful information through edge detection. By the end, you’ll be equipped with essential skills for any computer vision project.
+
+✅ What Will You Learn?
+The fundamentals of computer vision and its real-world applications
+
+The basic steps involved in image analysis
+
+How digital images are represented and processed
+
+Common color models and image types
+
+Image filtering techniques for noise reduction and enhancement
+
+How to perform edge detection and extract key visual features
+
+The practical importance of these techniques in AI and machine learning
+
+👥 Who This Course Is For?
+Beginners and students interested in computer vision and image processing
+
+Aspiring AI and machine learning engineers
+
+Robotics enthusiasts working with vision-based systems
+
+Developers seeking to understand visual data analysis
+
+Anyone curious about how machines “see” and interpret the world

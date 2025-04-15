@@ -1,0 +1,106 @@
+Course Description:
+Master SQL from the ground up with this practical course covering core queries, intermediate logic, and advanced data techniques used in real-world analytics and engineering.
+
+Who This Course is For:
+-	Aspiring data analysts and engineers
+-	Developers working with relational databases
+-	Students or professionals upskilling in SQL
+
+What You Will Learn:
+-	Core SQL commands: SELECT, JOIN, GROUP BY, WHERE
+-	Data filtering, aggregation, and case logic
+-	CTEs, temp tables, and stored procedures
+-	String functions and subqueries
+-	Writing clean, efficient, and reusable SQL
+
+----------------------------------------------------------------------------------------------------------------
+Chapter 1: Foundations of SQL
+Description:Learn SQL from scratch by setting up your environment, creating databases, and writing your first queries using real-world examples.
+
+Lesson 1: Setting Up SQL Server and Creating Tables
+Description:Install SQL Server and SSMS, create your first database, and build tables with sample data.
+Link:https://www.youtube.com/watch?v=RSlqWnP-Dy8&list=PLUaB-1hjhk8GT6N5ne2qpf603sF26m2PW
+Duration:9
+
+Lesson 2: SELECT and FROM Statements
+Description:Learn how to retrieve and view data from tables using basic SELECT and FROM statements.
+Link:https://www.youtube.com/watch?v=PyYgERKq25I&list=PLUaB-1hjhk8GT6N5ne2qpf603sF26m2PW&index=2
+Duration:6
+
+Lesson 3: Filtering Data with WHERE
+Description:Use the WHERE clause to filter rows based on conditions, patterns, and null values.
+Link:https://www.youtube.com/watch?v=A9TOuDZTPDU&list=PLUaB-1hjhk8GT6N5ne2qpf603sF26m2PW&index=3
+Duration:7
+
+Lesson 4: GROUP BY and ORDER BY Statements
+Description:Group and sort your data to create summaries and organized outputs using GROUP BY and ORDER BY.
+Link:https://www.youtube.com/watch?v=LXwfzIRD-Ds&list=PLUaB-1hjhk8GT6N5ne2qpf603sF26m2PW&index=4
+Duration:8
+-------------------------------------------------------------------------------------------------------------
+Chapter 2:Intermediate SQL
+Description:This chapter builds on foundational SQL skills, introducing more powerful tools like joins, unions, subqueries, and analytical functions to work with complex datasets
+
+Lesson 1:SQL JOINS
+Description:Learn how to combine data from multiple tables using INNER, LEFT, RIGHT, and FULL JOINS
+Link:https://www.youtube.com/watch?v=9URM1_2S0ho&list=PLUaB-1hjhk8HTgPnBukmMq7QTe83ANirL
+Duration:15
+
+Lesson 2:UNION and UNION ALL
+Description:Understand how to merge datasets vertically and the difference between keeping or removing duplicates.
+Link:https://www.youtube.com/watch?v=lYKkro6rKm0&list=PLUaB-1hjhk8HTgPnBukmMq7QTe83ANirL&index=2
+Duration:5
+
+Lesson 3:CASE Statements
+Description:Add conditional logic into your queries to return different results based on defined criteria.
+Link:https://www.youtube.com/watch?v=Twusw__OzA8&list=PLUaB-1hjhk8HTgPnBukmMq7QTe83ANirL&index=3
+Duration:7
+
+Lesson 4:UPDATE and DELETE
+Description:Learn how to safely modify or remove rows from your database using update and delete statements.
+Link:https://www.youtube.com/watch?v=bhnrIforc7s&list=PLUaB-1hjhk8HTgPnBukmMq7QTe83ANirL&index=5
+Duration:4
+
+Lesson 5: HAVING Clause
+Description:Filter grouped data using HAVING when WHERE doesn’t work with aggregate functions.
+Link:https://www.youtube.com/watch?v=tYBOMw7Ob8E&list=PLUaB-1hjhk8HTgPnBukmMq7QTe83ANirL&index=4
+Duration:3
+
+Lesson 6: Aliasing
+Description:Clean up and simplify your queries by renaming columns and tables for better readability.
+Link:https://www.youtube.com/watch?v=Dk7he_yEs4U&list=PLUaB-1hjhk8HTgPnBukmMq7QTe83ANirL&index=6
+Duration:6
+
+Lesson 7: PARTITION BY
+Description:Use PARTITION BY to apply window functions without collapsing your result set like GROUP BY does.
+Link:https://www.youtube.com/watch?v=D6XNlTfglW4&list=PLUaB-1hjhk8HTgPnBukmMq7QTe83ANirL&index=7
+Duration:4
+
+---------------------------------------------------------------------------------------------------------------
+Chapter 3:Advanced SQL 
+Description:This chapter dives into advanced SQL techniques including stored procedures, subqueries, CTEs, and more — helping you write efficient, reusable, and optimized SQL code.
+
+Lesson 1:Common Table Expressions (CTEs)
+Description:Learn how to simplify complex queries using CTEs to structure logic clearly and reuse temporary result sets.
+Link:https://www.youtube.com/watch?v=K1WeoKxLZ5o&list=PLUaB-1hjhk8EBZNL4nx4Otoa5Wb--rEpU
+Duration:3
+
+Lesson 2:Temp Tables
+Description:Discover how to create and use temporary tables to store intermediate results and improve performance in SQL workflows.
+Link:https://www.youtube.com/watch?v=RF0LE3hYFrI&list=PLUaB-1hjhk8EBZNL4nx4Otoa5Wb--rEpU&index=2
+Duration:10
+
+Lesson 3:String Functions
+Description:Use SQL string functions like TRIM, REPLACE, SUBSTRING, UPPER, and LOWER to clean and manipulate messy data.
+Link:https://www.youtube.com/watch?v=GQj6_6V_jVA&list=PLUaB-1hjhk8EBZNL4nx4Otoa5Wb--rEpU&index=3
+Duration:13
+
+Lesson 4:Stored Procedures
+Description:Create powerful, reusable SQL procedures with parameters to encapsulate logic and boost efficiency.
+Link:https://www.youtube.com/watch?v=NrBJmtD0kEw&list=PLUaB-1hjhk8EBZNL4nx4Otoa5Wb--rEpU&index=4
+Duration:6
+
+Lesson 5:Subqueries
+Description:Master subqueries within SELECT, FROM, and WHERE clauses to build dynamic and flexible SQL logic.
+Link:https://www.youtube.com/watch?v=m1KcNV-Zhmc&list=PLUaB-1hjhk8EBZNL4nx4Otoa5Wb--rEpU&index=5
+Duration:8
+
