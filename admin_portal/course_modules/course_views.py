@@ -1,7 +1,9 @@
 import streamlit as st
 from datetime import datetime
 from course_modules.course_services import (
-    get_all_courses, get_course_by_id, add_course_to_db, update_course_in_db, delete_course_by_id, update_total_hours_for_courses
+    get_all_courses, get_course_by_id, add_course_to_db, 
+    update_course_in_db, delete_course_by_id, 
+    update_total_hours_for_courses, get_average_rating_for_course, render_star_rating
 )
 
 def course_management_view(cursor, db_conn):
@@ -30,6 +32,9 @@ def course_management_view(cursor, db_conn):
 
         # Use an expander to show course details
         with st.expander(f"📘 {title}"):
+            # Get average rating
+            avg_rating = get_average_rating_for_course(cursor, course_id)
+
             # Display course details
             st.markdown(f"**🆔 ID**: {course_id}")
             st.markdown(f"**📚 Category**: {category}")
@@ -49,6 +54,8 @@ def course_management_view(cursor, db_conn):
             st.markdown(f"**📖 Description**: {desc[:200]}{'...' if len(desc) > 200 else ''}")
             st.markdown(f"**✅ What You'll Learn**: {learn}")
             st.markdown(f"**👥 Target Audience**: {target}")
+            st.markdown(f"**🌟 Average Rating**: {render_star_rating(avg_rating)}")
+
 
             # Display course thumbnail (if available)
             if thumb:

@@ -8,99 +8,89 @@ from student_progress_module.progress_views import progress_management_view
 from student_enrollment_module.progress_views import enrollment_management_view
 from Course_Progress_Tracker_module.Course_Progress_Tracker_views import course_progress_tracker_view
 
-# Connect to the database
+# ----------------- Connect to DB -----------------
 db_conn = connect_to_mysql()
 cursor = db_conn.cursor()
 
-# Page state management
+# ----------------- Session State Defaults -----------------
 if "page_state" not in st.session_state:
-    st.session_state.page_state = "home"  # Default state is home
+    st.session_state.page_state = "home"
 if "selected_user_id" not in st.session_state:
-    st.session_state.selected_user_id = None  # No user selected initially
+    st.session_state.selected_user_id = None
 
-# Render based on state
+# ----------------- Sidebar Logo & Navigation -----------------
+with st.sidebar:
+    st.image("assets/sprints_logo.png", width=180)
+    st.markdown("## 🛠️ Admin Panel", unsafe_allow_html=True)
+    page = st.radio("📚 **Navigate to Module**", [
+        "👤 Users",
+        "📘 Courses",
+        "📂 Chapters",
+        "📝 Enrollment",
+        "📊 Course Progress Tracker",
+        "📈 Dashboard"
+    ])
+    st.markdown("---")
+    st.caption("Developed with ❤️ by Sprints Team 1")
+
+# ----------------- Main Views -----------------
 if st.session_state.page_state == "home":
-    st.sidebar.title("🎓 Admin Panel")
-    page = st.sidebar.radio("📁 Select Module", ["Users", "Courses", "Chapters","enrollment","Course Progress Tracker","dashboard"])  # Allow selection between Users, Courses, Chapters
-    if page == "Users":
-        user_management_view(cursor, db_conn)  # Function for managing users
-    elif page== "Courses":
-        course_management_view(cursor, db_conn) # Function for managing courses
-    elif page=="Chapters":
-        chapter_management_view(cursor,db_conn) # Function for managing chapters
-    elif page=="enrollment":
-        enrollment_management_view(cursor,db_conn) # Function for managing chapters
-    elif page=="Course Progress Tracker":
-        course_progress_tracker_view(cursor,db_conn) # Function to simulate watching
-    elif page=="dashboard":
-        progress_management_view(cursor,db_conn) # Function for managing progress
+    if page == "👤 Users":
+        user_management_view(cursor, db_conn)
+    elif page == "📘 Courses":
+        course_management_view(cursor, db_conn)
+    elif page == "📂 Chapters":
+        chapter_management_view(cursor, db_conn)
+    elif page == "📝 Enrollment":
+        enrollment_management_view(cursor, db_conn)
+    elif page == "📊 Course Progress Tracker":
+        course_progress_tracker_view(cursor, db_conn)
+    elif page == "📈 Dashboard":
+        progress_management_view(cursor, db_conn)
 
-
-##################################################  User Pages #########################################################
-
-# Edit User
+# ----------------- User Pages -----------------
 elif st.session_state.page_state == "edit_user":
     if st.session_state.selected_user_id:
-        edit_user_view(cursor, db_conn, st.session_state.selected_user_id)  # Function to edit user data
+        edit_user_view(cursor, db_conn, st.session_state.selected_user_id)
     else:
-        st.error("No user selected for editing.")
+        st.error("⚠️ No user selected for editing.")
 
-# Show User
 elif st.session_state.page_state == "show_user":
     if st.session_state.selected_user_id:
-        show_user_view(cursor, db_conn, st.session_state.selected_user_id)  # Function to show user details
+        show_user_view(cursor, db_conn, st.session_state.selected_user_id)
     else:
-        st.error("No user selected to display.")
+        st.error("⚠️ No user selected to display.")
 
-# Add User
 elif st.session_state.page_state == "add_user":
-    add_user_view(cursor, db_conn)  # Function to add a new user
+    add_user_view(cursor, db_conn)
 
-##################################################  User Pages #########################################################
-
-# Add_Course
+# ----------------- Course Pages -----------------
 elif st.session_state.page_state == "add_course":
-    add_course_view(cursor, db_conn)  # Function to add a new course
+    add_course_view(cursor, db_conn)
 
-# Edit_Course
 elif st.session_state.page_state == "edit_course":
-    # Ensure that the course_id is available in the session state
     course_id = st.session_state.get('selected_course_id', None)
-    
-    # Check if the course_id is available and valid
     if course_id:
-        # Call the edit_course_view function with cursor, db_conn, and the course_id
         edit_course_view(cursor, db_conn, course_id)
     else:
-        st.error("No course selected for editing.")
+        st.error("⚠️ No course selected for editing.")
 
-
-##################################################  Courses Pages #########################################################
-elif st.session_state.page_state == "add_course":
-    add_course_view(cursor, db_conn)  # Function to add a new course
-
-
-##################################################  Chapters Pages #########################################################
-
+# ----------------- Chapter Pages -----------------
 elif st.session_state.page_state == "add_chapter":
-    add_chapter_view(cursor, db_conn)  # Function to add a new chapter
+    add_chapter_view(cursor, db_conn)
 
 elif st.session_state.page_state == "view_chapters":
-    view_chapters(cursor, db_conn)  # Function to view chapters
+    view_chapters(cursor, db_conn)
 
 elif st.session_state.page_state == "edit_chapter":
-    edit_chapter_view(cursor, db_conn, st.session_state.selected_chapter_id)  # Edit chapter view
+    edit_chapter_view(cursor, db_conn, st.session_state.selected_chapter_id)
 
-
-##################################################  Content Pages #########################################################
-elif st.session_state.get("page_state") == "view_content":
+# ----------------- Content Pages -----------------
+elif st.session_state.page_state == "view_content":
     content_management_view(cursor, db_conn)
 
-elif st.session_state.get("page_state") == "add_content":
+elif st.session_state.page_state == "add_content":
     add_content_view(cursor, db_conn)
-    
-elif st.session_state.get("page_state") == "edit_content":
+
+elif st.session_state.page_state == "edit_content":
     edit_content_view(cursor, db_conn)
-
-##################################################  Content Pages #########################################################
-

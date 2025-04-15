@@ -118,10 +118,26 @@ def update_student_progress(cursor, db_conn, student_id, content_id, watched, co
         SET progress = %s
         WHERE user_ID = %s AND course_ID = %s
     """, (new_progress, student_id, course_id))
+
+    # If progress is 100%, update status to 'Completed'
+    if new_progress >= 100:
+        cursor.execute("""
+            UPDATE enrollments
+            SET status = 'Completed'
+            WHERE user_ID = %s AND course_ID = %s
+        """, (student_id, course_id))
+    else:
+        cursor.execute("""
+            UPDATE enrollments
+            SET status = 'Active'
+            WHERE user_ID = %s AND course_ID = %s
+        """, (student_id, course_id))
+
     db_conn.commit()
 
     status = "✅ Watched" if watched else "❌ Unwatched"
     return f"🔄 Updated progress for **{content_title}** in _{chapter_title}_ → {status}. Progress updated from {current_progress:.2f}% to {new_progress:.2f}%"
+
 
 
 

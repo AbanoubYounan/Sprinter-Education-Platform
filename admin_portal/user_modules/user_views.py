@@ -1,69 +1,94 @@
 import streamlit as st
 from user_modules.user_services import get_all_users, delete_user_by_id, get_user_by_id, update_user_in_db, add_user_to_db
+import pandas as pd
+from io import BytesIO
 
 def user_management_view(cursor, db_conn):
     st.title("👥 User Management Panel")
 
-    # Inject custom CSS for styling the button
-    st.markdown("""
-        <style>
-        .small-button {
-            font-size: 18px;
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        .small-button:hover {
-            background-color: #45a049;
-            transform: scale(1.1);
-        }
-        </style>
-    """, unsafe_allow_html=True)
+    # Fetch users from DB
+    users = get_all_users(cursor)  # Should return a list of tuples
 
-    # Small and impressive "Add User" button
-    if st.button("➕ Add User", key="add_user_button", help="Click to add a new user"):
-        st.session_state.page_state = "add_user"
-        st.rerun()
-
-    # Get users
-    users = get_all_users(cursor)
     if not users:
         st.warning("No users found in the database.")
         return
 
-    st.markdown("## 📋 Users List")
-    for user in users:
-        user_id, name, email, _, role, bio = user[:6]
-        col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([1.5, 2.5, 3, 1.5, 3, 0.7, 0.7, 0.7])
-        with col1: st.write(user_id)
-        with col2: st.write(name)
-        with col3: st.write(email)
-        with col4: st.write(role)
-        with col5: st.write(bio)
+    # Define DataFrame columns as per your schema
+    df = pd.DataFrame(users, columns=[
+        "ID", "Name", "Email", "Password", "Role", "Bio"
+    ])
 
-        with col6:
-            if st.button("✏️", key=f"edit_{user_id}"):
-                st.session_state.page_state = "edit_user"
-                st.session_state.selected_user_id = user_id
-                st.rerun()
+    df["Short ID"] = df["ID"].apply(lambda x: str(x)[:8])
+    df["Bio"] = df["Bio"].fillna("—")  # Default display for empty bio
 
-        with col7:
-            if st.button("🗑️", key=f"delete_{user_id}"):
-                delete_user_by_id(cursor, db_conn, user_id)
-                st.success(f"User '{name}' deleted.")
-                st.rerun()
+    st.markdown("### 🔎 Display Options")
+    col1, col2 = st.columns([2, 2])
 
-        with col8:
-            if st.button("👁️", key=f"show_{user_id}"):
-                st.session_state.page_state = "show_user"
-                st.session_state.selected_user_id = user_id
-                st.rerun()
+    with col1:
+        num_display = st.number_input(
+            "Number of users to show",
+            min_value=1,
+            max_value=len(df),
+            value=min(10, len(df))
+        )
 
+    with col2:
+        sort_col = st.selectbox(
+            "Sort by",
+            options=["Name", "Email", "Role"]
+        )
+
+    df = df.sort_values(by=sort_col).head(num_display)
+
+    # --- Export to Excel ---
+    export_df = df.drop(columns=["Password"])
+    excel_buffer = BytesIO()
+    with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
+        export_df.to_excel(writer, index=False, sheet_name="Users")
+    excel_data = excel_buffer.getvalue()
+
+    st.download_button(
+        label="⬇️ Download Excel",
+        data=excel_data,
+        file_name="user_list.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
+    # Add user button
+    if st.button("➕ Add User"):
+        st.session_state.page_state = "add_user"
+        st.rerun()
+
+    st.markdown("### 📋 Users List")
+    header_cols = st.columns([1.2, 2, 2.5, 1.2, 2.5, 0.6, 0.6, 0.6])
+    headers = ["ID", "Name", "Email", "Role", "Bio", "✏️", "🗑️", "👁️"]
+    for col, title in zip(header_cols, headers):
+        col.markdown(f"**{title}**")
+
+    for _, row in df.iterrows():
+        row_cols = st.columns([1.2, 2, 2.5, 1.2, 2.5, 0.6, 0.6, 0.6])
+        row_cols[0].markdown(f"{row['Short ID']}")
+        row_cols[1].markdown(f"{row['Name']}")
+        row_cols[2].markdown(f"{row['Email']}")
+        row_cols[3].markdown(f"{row['Role']}")
+        row_cols[4].markdown(f"{row['Bio']}")
+
+        if row_cols[5].button("✏️", key=f"edit_{row['ID']}"):
+            st.session_state.page_state = "edit_user"
+            st.session_state.selected_user_id = row['ID']
+            st.rerun()
+
+        if row_cols[6].button("🗑️", key=f"delete_{row['ID']}"):
+            delete_user_by_id(cursor, db_conn, row['ID'])
+            db_conn.commit()
+            st.success(f"✅ User '{row['Name']}' deleted.")
+            st.rerun()
+
+        if row_cols[7].button("👁️", key=f"view_{row['ID']}"):
+            st.session_state.page_state = "show_user"
+            st.session_state.selected_user_id = row['ID']
+            st.rerun()
+                
 def show_user_view(cursor, db_conn, user_id):
     st.title("👁️ User Details")
 
@@ -127,6 +152,8 @@ def edit_user_view(cursor, db_conn, user_id):
     tools_and_technologies = st.text_area("Tools & Technologies", user_data["tools_and_technologies"])
     interests = st.text_area("Interests", user_data["interests"])
     preferred_project_types = st.text_area("Preferred Project Types", user_data["preferred_project_types"])
+    verified = st.checkbox("Email Verified", value=user_data["verified"] or False)
+
 
     if st.button("✅ Save Changes"):
         updated_data = {
@@ -148,7 +175,8 @@ def edit_user_view(cursor, db_conn, user_id):
             "programming_languages": programming_languages,
             "tools_and_technologies": tools_and_technologies,
             "interests": interests,
-            "preferred_project_types": preferred_project_types
+            "preferred_project_types": preferred_project_types,
+            "verified": verified 
         }
         update_user_in_db(cursor, db_conn, user_id, updated_data)
         st.success("User updated successfully!")
@@ -183,6 +211,7 @@ def add_user_view(cursor, db_conn):
     tools_and_technologies = st.text_area("Tools & Technologies")
     interests = st.text_area("Interests")
     preferred_project_types = st.text_area("Preferred Project Types")
+    verified = st.checkbox("Email Verified", value=False)
 
     if st.button("✅ Add User"):
         if not full_name or not email or not password_hash:
@@ -207,7 +236,8 @@ def add_user_view(cursor, db_conn):
                 "programming_languages": programming_languages,
                 "tools_and_technologies": tools_and_technologies,
                 "interests": interests,
-                "preferred_project_types": preferred_project_types
+                "preferred_project_types": preferred_project_types,
+                "verified": verified 
             }
             add_user_to_db(cursor, db_conn, new_user_data)
             st.success("User added successfully!")

@@ -174,4 +174,19 @@ def update_total_hours_for_courses(cursor, conn):
         print(f"❌ Error committing total hour updates: {e}")
         conn.rollback()
 
+def get_average_rating_for_course(cursor, course_id):
+    cursor.execute("""
+        SELECT AVG(rating) 
+        FROM course_reviews 
+        WHERE course_ID = %s
+    """, (course_id,))
+    result = cursor.fetchone()
+    return round(result[0], 1) if result and result[0] else 0.0
+
+def render_star_rating(avg_rating):
+    full_star = "⭐"
+    empty_star = "☆"
+    rating = int(avg_rating)
+    stars = full_star * rating + empty_star * (5 - rating)
+    return f"{stars} ({avg_rating}/5)"
 
