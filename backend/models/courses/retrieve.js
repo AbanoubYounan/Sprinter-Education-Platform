@@ -99,6 +99,29 @@ async function getAllCoursesNames() {
     }
 }
 
+async function getAllCoursesAndLessons() {
+    try{
+        const query = `SELECT 
+    c.course_title,
+    c.description AS course_disc,
+    con.content_title AS lesson_title,
+    con.description AS lesson_disc,
+    ch.position AS chapter_position,
+    con_rel.position AS content_position
+FROM courses c
+JOIN course_chapters ch ON c.course_ID = ch.course_ID
+JOIN chapter_content con_rel ON ch.chapter_ID = con_rel.chapter_ID
+JOIN content con ON con_rel.content_ID = con.content_ID
+ORDER BY c.course_title, ch.position, con_rel.position;
+                        `
+        const rows = await quering(query);
+        return rows;
+    }catch(error){
+        console.log('Error in getAllCoursesNames', error)
+        throw error
+    }
+}
+
 async function getCourseChapters(CourseID) {
     try{
         const query = `
@@ -158,5 +181,6 @@ module.exports = {
     getAllCourses,
     getCourseChapters,
     getChapterContent,
-    getAllCoursesNames
+    getAllCoursesNames,
+    getAllCoursesAndLessons
 }

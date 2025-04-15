@@ -73,6 +73,34 @@ exports.getAllCoursesNames = async (_, res) => {
   }
 };
 
+exports.getAllCoursesAndLessons = async (_, res) => {
+  try {
+      const courses = await coursesModel.getAllCoursesAndLessons()
+      const result = {};
+
+      for (const row of courses) {
+          const { course_title, course_disc, lesson_title, lesson_disc } = row;
+
+          if (!result[course_title]) {
+              result[course_title] = {
+                  course_disc,
+                  lessons: {}
+              };
+          }
+
+          const lessonCount = Object.keys(result[course_title].lessons).length + 1;
+          result[course_title].lessons[`lesson ${lessonCount}`] = {
+              lesson_title,
+              lesson_disc
+          };
+      }
+      return res.status(200).json({ courses: result});
+  } catch (error) {
+    console.log('error in getAllCoursesAndLessons controller', error)
+    return res.status(500).json({ message: 'Server error', error });
+  }
+};
+
 
 exports.Enroll = async (req, res) => {
   try {
