@@ -63,6 +63,17 @@ exports.getAllCourses = async (req, res) => {
     }
 };
 
+exports.getAllCoursesNames = async (_, res) => {
+  try {
+      const courses = await coursesModel.getAllCoursesNames()
+      return res.status(200).json({ courses: courses });
+  } catch (error) {
+    console.log('error in getAllCoursesNames controller', error)
+    return res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+
 exports.Enroll = async (req, res) => {
   try {
     const { CourseID } = req.body;
