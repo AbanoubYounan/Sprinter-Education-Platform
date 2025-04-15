@@ -1,1 +1,73 @@
-.env
+# Python bytecode
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# Virtual environment directories
+venv/
+env/
+.venv/
+.env/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# IDE/editor directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Pytest cache
+.cache/
+
+# Coverage reports
+.coverage
+*.cover
+*.py,cover
+
+# MyPy
+.mypy_cache/
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+*.sqlite3
+
+# Flask
+instance/
+.webassets-cache
+
+# Pycharm
+.idea/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# macOS Finder
+.DS_Store
+
+# Python wheels
+*.whl
+
+# Pipenv
+Pipfile.lock
+
+# Pipenv and poetry virtual environments
+Pipfile
+poetry.lock
+
+/uploads
