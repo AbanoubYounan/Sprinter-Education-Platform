@@ -1,4 +1,5 @@
 'use client';
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
