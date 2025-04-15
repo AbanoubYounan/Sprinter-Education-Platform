@@ -9,7 +9,7 @@ async function GetAllSessions(UserID) {
     const values = [UserID];
     try{
         const rows = await quering(query, values);
-        return rows.length? rows[0]: null;
+        return rows;
     }catch(error){
         console.log('Error in GetAllSessions', error)
         throw error
