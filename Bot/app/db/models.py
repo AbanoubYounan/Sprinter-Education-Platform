@@ -7,16 +7,14 @@ from app.db.database import Base, engine
 
 class User(Base):
     __tablename__ = "users"
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(String(36), primary_key=True, index=True)
     username = Column(String, unique=True, index=True, nullable=False)
-    sessions = relationship("Session", back_populates="user")
-
 
 class Conversation(Base):
     __tablename__ = "conversations"
     id = Column(Integer, primary_key=True, index=True)
     session_id = Column(Integer, ForeignKey("sessions.id"), nullable=False, unique=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(String(36), ForeignKey("users.id"), nullable=False)
     user_message = Column(Text, nullable=False)
     ai_response = Column(Text, nullable=True)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -33,19 +31,18 @@ class ConversationHistory(Base):
     __tablename__ = "conversation_history"
     id = Column(Integer, primary_key=True, index=True)
     session_id = Column(Integer, ForeignKey("sessions.id"), nullable=False)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(String(36), nullable=True)
     user_message = Column(Text, nullable=False)
     ai_response = Column(Text, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     
     session = relationship("Session")
-    user = relationship("User")
 
 # Updated Session model
 class Session(Base):
     __tablename__ = "sessions"
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    user_id = Column(String(36), nullable=True)  # Change user_id to CHAR(36) to store UUIDs or any 36-character string
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
@@ -60,8 +57,9 @@ class Session(Base):
     last_intent = Column(String, nullable=True)
     last_tool = Column(String, nullable=True)
     
-    # Relationships
-    user = relationship("User", back_populates="sessions")
+    # Relationships (removed the user foreign key relationship)
+    # user = relationship("User", back_populates="sessions")  # No longer necessary
+    
     conversation = relationship("Conversation", uselist=False, back_populates="session")
     
 class SessionFile(Base):

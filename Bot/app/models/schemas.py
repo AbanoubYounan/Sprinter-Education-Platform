@@ -4,6 +4,7 @@ from typing import List
 class ChatRequest(BaseModel):
     session_id: int = None
     user_input: str
+    user_id: str = None
     username: str = None
 
 class ChatResponse(BaseModel):

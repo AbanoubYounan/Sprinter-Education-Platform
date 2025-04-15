@@ -72,3 +72,5 @@ poetry.lock
 
 /uploads
 app.db
+docker/DockerFile2
+docker-composer.yaml

@@ -9,7 +9,7 @@ router = APIRouter()
 @router.get("/conversation/history", response_model=ConversationHistoryResponse)
 def get_conversation_history(
     session_id: int = Query(..., description="The session ID"),
-    user_id: int = Query(..., description="The user ID"),
+    user_id: str = Query(..., description="The user ID"),
     limit: int = Query(10, description="Maximum number of messages to retrieve"),
     db: Session = Depends(get_db)
 ):

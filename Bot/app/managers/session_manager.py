@@ -5,6 +5,8 @@ from datetime import datetime
 from sqlalchemy import desc
 from app.db.models import User, Conversation, ConversationHistory, Session, SessionFile
 from sqlalchemy.orm import joinedload
+import uuid
+
 
 
 # Create a module-level logger
@@ -15,8 +17,11 @@ class SessionManager:
         self.db = db
         self.logger = logger  # Make logger available to use in methods
 
-    def create_user(self, username: str):
-        user = User(username=username)
+    def create_user(self, username: str, user_id: str = ""):
+        if not user_id:
+            user_id = "TEMP_" + str(uuid.uuid4())  # Generate a UUID for user_id if not provided
+        
+        user = User(id=user_id, username=username)
         self.db.add(user)
         self.db.commit()
         self.db.refresh(user)
@@ -31,7 +36,7 @@ class SessionManager:
         """
         return self.db.query(User).filter(User.username == username).first()
 
-    def create_session(self, user_id: int = None, initial_state: dict = None):
+    def create_session(self, user_id: str = None, initial_state: dict = None):
         if initial_state is None:
             initial_state = {}
 
