@@ -118,7 +118,7 @@ def chat_endpoint(
             
             os.makedirs("uploads", exist_ok=True)
             with open(file_path, "wb") as f:
-                f.write(uploaded_file.file.read())
+                f.write(uploaded_file.file.read()) 
             
             pdf_tool_config = {
                 "llm": {

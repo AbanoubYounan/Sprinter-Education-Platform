@@ -226,28 +226,53 @@ def pdf_search_for_request(tutor, state, request) -> str:
     # Obtain the file name from the request. It might be empty.
     file_name = request.get("file_name", "").strip()
     request_text = request.get("request_text", "")
-    
+
     pdf_info = None
     original_name = None
-    
+
+    # Debug: Print all files available in the state.
+    available_files = state.get("files", {})
+    # print("DEBUG: Files in session state:", list(available_files.keys()))
+
     # Look for the file info in the state["files"] dictionary.
-    # The keys of state["files"] are now the file paths, e.g., "uploads/<uuid>.pdf".
-    for key, file in state.get("files", {}).items():
+    # The keys of state["files"] are assumed to be the file paths, e.g., "uploads/<uuid>.pdf".
+    for key, file in available_files.items():
+        # print(f"DEBUG: Checking key: {key}, original_filename in state: {file.get('original_filename')}")
         # Check if the provided file_name matches either the original filename
         # or the file path (which is the key) from the session.
         if file.get("original_filename") == file_name or key == file_name:
             pdf_info = file
             original_name = key  # key should be the file path, e.g. "uploads/..."
+            # print("DEBUG: Found the file:", original_name)
             break
 
     # If no match was found and no file_name was provided, pick the first available file.
     if pdf_info is None:
-        if not file_name and state.get("files"):
-            key, pdf_info = next(iter(state["files"].items()))
+        if not file_name and available_files:
+            key, pdf_info = next(iter(available_files.items()))
             original_name = key
+            # print("DEBUG: No file name provided; using first available file:", original_name)
         else:
-            return f"Error: File with name '{file_name}' not found in the session."
-    
+            error_message = f"Error: File with name '{file_name}' not found in the session."
+            # print("DEBUG:", error_message)
+            return error_message
+
+    # Ensure the file path uses the relative "./uploads/" format.
+    # If original_name does not start with "./uploads/", adjust it accordingly.
+    if not original_name.startswith("./uploads/"):
+        if original_name.startswith("uploads/"):
+            original_name = "./" + original_name
+        else:
+            original_name = "./uploads/" + original_name
+    # print("DEBUG: Final file path used:", original_name)
+
+    # Log the current working directory.
+    # print("Current working directory:", current_path)
+
+    # (Optional) Check if the file exists on disk.
+    # Build an absolute path from the current path and the relative file path.
+    # Remove any leading "./" from original_name before joining.
+
     # Retrieve the configuration stored in the file info.
     tool_config = pdf_info.get("tool_config")
     

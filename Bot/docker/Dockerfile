@@ -4,26 +4,26 @@ FROM python:3.11-slim AS base
 # Set working directory inside the container
 WORKDIR /app
 
-# (Optional) Install any system-level dependencies you need
-# RUN apt-get update && apt-get install -y gcc build-essential ...
-
-# Copy in only the requirements file and install dependencies
+# Copy only the requirements file first to leverage build caching
 COPY ./requirements.txt /app/requirements.txt
+
+# Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install dos2unix to convert line endings
+# Install dos2unix to convert line endings, if needed
 RUN apt-get update && apt-get install -y dos2unix
 
-# Copy the startup script into a location outside /app
+# Copy the start script into the container (placed outside of /app)
 COPY docker/start.sh /usr/local/bin/start.sh
 
-# Convert CRLF to LF
-RUN dos2unix /usr/local/bin/start.sh
+# Convert CRLF to LF and grant execute permissions on the start script
+RUN dos2unix /usr/local/bin/start.sh && chmod +x /usr/local/bin/start.sh
 
-RUN chmod +x /usr/local/bin/start.sh
+# Now copy the rest of your project into the image
+COPY . /app
 
-# Expose port 80 to the host
+# Expose the port the app uses (80 in this case)
 EXPOSE 80
 
-# By default, run start.sh
+# Use the start script as the entrypoint when the container starts
 ENTRYPOINT ["/usr/local/bin/start.sh"]

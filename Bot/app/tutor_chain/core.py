@@ -178,7 +178,7 @@ class TutorChain:
         # Log the response content and the order in which tools are executed.
         logger.info("Completed tool: %s", tool_name)
         logger.debug("Response from %s: %s", tool_name, response.content)
-        print("done!")
+        # print("done!")
         
         return response
 

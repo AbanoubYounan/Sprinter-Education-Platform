@@ -49,7 +49,7 @@ def analyze_input_with_llm(tutor, state) -> dict:
     
     # Build dynamic file history using the helper function.
     file_history_dynamic = build_file_history_string(state)
-    print("FILE HISTROY" , file_history_dynamic)
+    # print("FILE HISTROY" , file_history_dynamic)
 
     # Extended prompt with file search tool instructions.
     prompt = f"""
@@ -262,7 +262,7 @@ def execute_tools_for_requests(tutor, state) -> dict:
         tool_func = tool_functions.get(tool_name, tutor.converse_for_request)
         response = tool_func(tutor, state, req)
         agent_responses[request_id] = response
-        print("response", response)
+        # print("response", response)
     updated_state["agent_responses"] = agent_responses
     return updated_state
 

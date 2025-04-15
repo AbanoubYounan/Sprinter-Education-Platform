@@ -71,3 +71,4 @@ Pipfile
 poetry.lock
 
 /uploads
+app.db
