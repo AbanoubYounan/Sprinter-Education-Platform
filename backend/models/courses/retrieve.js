@@ -88,6 +88,17 @@ async function getAllCourses(UserID=null) {
     
 }
 
+async function getAllCoursesNames() {
+    try{
+        const query = `SELECT course_ID, course_title FROM courses`
+        const rows = await quering(query);
+        return rows;
+    }catch(error){
+        console.log('Error in getAllCoursesNames', error)
+        throw error
+    }
+}
+
 async function getCourseChapters(CourseID) {
     try{
         const query = `
@@ -146,5 +157,6 @@ async function getChapterContent(ChapterID) {
 module.exports = {
     getAllCourses,
     getCourseChapters,
-    getChapterContent
+    getChapterContent,
+    getAllCoursesNames
 }
