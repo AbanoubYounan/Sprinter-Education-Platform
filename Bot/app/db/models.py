@@ -12,7 +12,6 @@ class User(Base):
     sessions = relationship("Session", back_populates="user")
 
 
-
 class Conversation(Base):
     __tablename__ = "conversations"
     id = Column(Integer, primary_key=True, index=True)
@@ -64,6 +63,20 @@ class Session(Base):
     # Relationships
     user = relationship("User", back_populates="sessions")
     conversation = relationship("Conversation", uselist=False, back_populates="session")
-
+    
+class SessionFile(Base):
+    __tablename__ = "session_files"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    session_id = Column(Integer, ForeignKey("sessions.id"), nullable=False)
+    original_filename = Column(String, nullable=False)
+    file_path = Column(String, nullable=False)
+    summary = Column(Text, nullable=True)
+    extracted_content = Column(Text, nullable=True)
+    tool_config = Column(Text, nullable=True)  # Serialized JSON
+    created_at = Column(DateTime, default=datetime.utcnow)
+    
+    # This allows you to access the session via session_obj.files
+    session = relationship("Session", backref="files")
 # Create all tables at startup
 Base.metadata.create_all(bind=engine)

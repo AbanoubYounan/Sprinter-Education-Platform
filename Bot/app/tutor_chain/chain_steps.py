@@ -1,6 +1,30 @@
 import re
 import json
-from app.tutor_chain.config import logger
+import logging
+
+logger = logging.getLogger(__name__)
+
+def build_file_history_string(state: dict) -> str:
+    """
+    Constructs a dynamic file history string from the session state.
+    It retrieves the 'files' key from the state and builds a formatted string
+    listing each file and its summary.
+    """
+    user_files = state.get("files", {})
+    file_history_lines = []
+    for file_key, file_info in user_files.items():
+        original_filename = file_info.get("original_filename", "Unknown File")
+        summary_obj = file_info.get("summary", "No summary available")
+        # If the summary is an object that has a "content" attribute, extract the text.
+        if hasattr(summary_obj, "content"):
+            summary_text = summary_obj.content.strip()
+        else:
+            summary_text = str(summary_obj).strip()
+        file_history_lines.append(f'{original_filename}: {summary_text}')
+    
+    logger.info("File history lines: %s", "\n".join(file_history_lines) if file_history_lines else "No file history available.")
+    return "\n".join(file_history_lines) if file_history_lines else "No file history available."
+
 
 def retrieve_relevant_history(history, query, top_n=5):
     # Using the last top_n interactions as a placeholder.
@@ -11,17 +35,23 @@ def retrieve_relevant_history(history, query, top_n=5):
     )
 
 def analyze_input_with_llm(tutor, state) -> dict:
+    # logger.info("stateeee in chain.py", state)
     logger.debug("Analyzing input: %s", state['user_input'])
     text = state['user_input'].lower()
     exit_phrases = ["exit", "quit", "stop", "goodbye", "bye"]
     if any(phrase in text for phrase in exit_phrases):
         logger.info("User wants to exit the conversation.")
         return {"should_exit": True}
-
     history = state.get('db_history', [])
     # Use retrieve_relevant_history for the last 10 interactions
     chat_history = retrieve_relevant_history(history, text, top_n=10)
+    # print("chat history", chat_history)
     
+    # Build dynamic file history using the helper function.
+    file_history_dynamic = build_file_history_string(state)
+    # print("FILE HISTROY" , file_history_dynamic)
+
+    # Extended prompt with file search tool instructions.
     prompt = f"""
         You are TutorBuddy, a friendly, knowledgeable, and engaging tutor.
         Your goal is to assist the user with learning while keeping the conversation natural and warm.
@@ -32,8 +62,12 @@ def analyze_input_with_llm(tutor, state) -> dict:
 
         Available courses: ['intro to python', 'web dev with django', 'data science with pandas', 'machine learning basics']
         Common interests: ['programming', 'web development', 'data science', 'machine learning', 'artificial intelligence', 'python']
-        Possible intents: ['explanation', 'example', 'quiz', 'simplify', 'recommendation', 'course_completion', 'reference_history', 'conversation']
-        Available tools: ExplainConcept, GiveExample, GenerateQuiz, SimplifyConcept, RecommendCourses, CourseCompletion, Converse
+        Possible intents: ['explanation', 'example', 'quiz', 'simplify', 'recommendation', 'course_completion', 'reference_history', 'conversation', 'pdf_search']
+        Available tools: ExplainConcept, GiveExample, GenerateQuiz, SimplifyConcept, RecommendCourses, CourseCompletion, Converse, pdfSearch
+        User files:
+        
+        {file_history_dynamic}
+        
         Recent Chat History:
         {chat_history}
         User message: "{text}"
@@ -50,7 +84,12 @@ def analyze_input_with_llm(tutor, state) -> dict:
         6. For recommendation requests:
            - Mark the intent as "recommendation" and set the tool as "RecommendCourses".
            - Only include the "interests" field if the user explicitly states that they like a particular field or mentions seeing a course in that field.
-        7. Return your analysis strictly as a JSON object with these fields:
+        7. For file-related queries:
+           - If the user's query is referencing or is clearly derived from one of the files the user has uploaded (e.g. "search in [file name]", "what does [file name] say", etc.),
+             mark the intent as "pdf_search" and set the tool as "pdfSearch".
+           - In this case, include an additional field "file_name" which should be the original filename of the file being referenced.
+           - in case the user asked for explenation that only exists in the pdf the tool will be pdfSearch not ExplainConcept as ExplainConcept is only for the courses data
+        8. Return your analysis strictly as a JSON object with these fields:
 
         {{
             "requests": [
@@ -62,8 +101,9 @@ def analyze_input_with_llm(tutor, state) -> dict:
                     "current_course": "current course name if mentioned, else empty string",
                     "interests": ["list", "of", "interests"],
                     "completed_courses": ["list", "of", "completed", "courses"],
-                    "intent": "one of the intent options (if no actionable request, use 'conversation')",
-                    "tool": "one of the available tools (if no actionable request, use 'Converse')",
+                    "intent": "one of the intent options (if no actionable request, use 'conversation' or 'pdf_search' for file queries)",
+                    "tool": "one of the available tools (if no actionable request, use 'Converse'; for file queries, use 'pdfSearch')",
+                    "file_name": "file name if applicable, otherwise empty string",
                     "reference_history": true or false,
                     "history_index": -1 or index of referenced history item
                 }},
@@ -102,21 +142,29 @@ def analyze_input_with_llm(tutor, state) -> dict:
             "multi_requests": merged_requests_list,
             "agent_partial_responses": {req["request_id"]: [] for req in merged_requests_list},
             "agent_responses": {},
-            "context_references": {req["request_id"]: {"reference_history": req.get("reference_history", False), "history_index": req.get("history_index", -1)} for req in merged_requests_list}
+            "context_references": {
+                req["request_id"]: {
+                    "reference_history": req.get("reference_history", False),
+                    "history_index": req.get("history_index", -1)
+                }
+                for req in merged_requests_list
+            }
         }
     except Exception as e:
         logger.error(f"Error parsing LLM multi-request response: {e}")
-        # Instead of defaulting to fallback, we create a default conversational request.
+        # Fallback to a default conversational request.
         return {
             "multi_requests": [{
                 "request_id": "req_converse",
                 "request_text": state['user_input'],
                 "course": "",
                 "lesson": "",
+                "current_course": "",
                 "interests": [],
                 "completed_courses": [],
                 "intent": "conversation",
                 "tool": "Converse",
+                "file_name": "",
                 "reference_history": False,
                 "history_index": -1
             }],
@@ -136,6 +184,8 @@ def build_context_node(tutor, state) -> dict:
     # Build the initial context string with the relevant history and current input
     initial_context = f"Relevant Conversation History:\n{context_history}\n\nUser's Current Input: {current_query}\n"
     
+    # print(initial_context)
+    
     # Build a prompt that instructs the LLM to filter out redundant details,
     # returning only the important context needed to answer the query.
     refined_prompt = f"""
@@ -143,6 +193,8 @@ def build_context_node(tutor, state) -> dict:
     
     Given the following conversation context, please extract only the essential details that are necessary to answer the user's query.
     Do not include any unnecessary or redundant information.
+    extract only what the user want.
+    You'll find a conversation between the user and his current query based on both extract what the user wants now only and if there is unfifiled requests that needs to be fulfilled still based on his query if he's asking for it
     
     Conversation Context:
     {initial_context}
@@ -152,7 +204,6 @@ def build_context_node(tutor, state) -> dict:
     # Invoke the LLM with the prompt to obtain the refined context.
     response = tutor.log_and_invoke([{"role": "user", "content": refined_prompt}], tool_name="build_context_node")
     refined_context = response.content.strip()
-    print(refined_context)
     
     # Update the state with the refined context.
     state["context"] = refined_context
@@ -184,7 +235,14 @@ def execute_tools_for_requests(tutor, state) -> dict:
     requests = state.get('multi_requests', [])
     if not requests:
         # Generate a friendly conversational response using the Converse tool.
-        return {**updated_state, "conversational_response": tutor.converse_for_request(tutor, state, {"request_text": state['user_input']})}
+        return {
+            **updated_state, 
+            "conversational_response": tutor.converse_for_request(
+                tutor, 
+                state, 
+                {"request_text": state['user_input']}
+            )
+        }
     
     tool_functions = {
         "ExplainConcept": tutor.explain_concept_for_request,
@@ -193,18 +251,21 @@ def execute_tools_for_requests(tutor, state) -> dict:
         "SimplifyConcept": tutor.simplify_concept_for_request,
         "RecommendCourses": tutor.recommend_courses_for_request,
         "CourseCompletion": tutor.handle_course_completion_for_request,
-        "Converse": tutor.converse_for_request
+        "Converse": tutor.converse_for_request,
+        "pdfSearch": tutor.pdf_search_for_request
     }
+    
     agent_responses = {}
-    for request in requests:
-        request_id = request.get("request_id")
-        tool_name = request.get("tool", "Converse")  # Default to "Converse" if no tool is specified.
+    for req in requests:
+        request_id = req.get("request_id")
+        tool_name = req.get("tool", "Converse")
         tool_func = tool_functions.get(tool_name, tutor.converse_for_request)
-        # Each tool function is expected to internally log its execution with the tool_name.
-        response = tool_func(tutor, state, request)
+        response = tool_func(tutor, state, req)
         agent_responses[request_id] = response
+        # print("response", response)
     updated_state["agent_responses"] = agent_responses
     return updated_state
+
 
 def generate_conversational_response(tutor, state) -> dict:
     # Use the refined context stored in state["context"]
@@ -238,7 +299,7 @@ def generate_conversational_response(tutor, state) -> dict:
     final_response = response.content.strip()
     return {**state, "conversational_response": final_response}
 
-
+ 
 def log_interaction(tutor, state) -> dict:
     updated_state = state.copy()
     intent_summary = []

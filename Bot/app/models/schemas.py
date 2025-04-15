@@ -2,9 +2,9 @@ from pydantic import BaseModel
 from typing import List
 
 class ChatRequest(BaseModel):
-    session_id: int = None   # Resume session if provided.
+    session_id: int = None
     user_input: str
-    username: str = None     # Optional: to link session to a user.
+    username: str = None
 
 class ChatResponse(BaseModel):
     session_id: int

@@ -21,7 +21,9 @@ from app.tutor_chain.tool_functions import (
     simplify_concept_for_request,
     recommend_courses_for_request,
     handle_course_completion_for_request,
-    fallback_for_request
+    fallback_for_request,
+    converse_for_request,
+    pdf_search_for_request
 )
 
 load_dotenv()
@@ -30,6 +32,7 @@ load_dotenv()
 class TutorChain:
     def __init__(self):
         os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+        os.environ["GROQ_API_KEY"] = os.getenv("OPENAI_API_KEY")
         os.environ["OPENAI_API_BASE"] = os.getenv("OPENAI_API_BASE")
         self.llm = ChatOpenAI(
             model="llama3-70b-8192",
@@ -117,19 +120,8 @@ class TutorChain:
         self.recommend_courses_for_request = recommend_courses_for_request
         self.handle_course_completion_for_request = handle_course_completion_for_request
         self.fallback_for_request = fallback_for_request
-
-    def converse_for_request(self, tutor, state, request) -> str:
-        # Use state["context"] if available for a more targeted prompt.
-        context = state.get("context", "")
-        prompt = f"""
-        {context}
-        
-        The user's latest input: {state['user_input']}
-        
-        Please generate a warm, engaging, and natural conversational response that continues the dialogue.
-        """
-        response = tutor.log_and_invoke([{"role": "user", "content": prompt}], tool_name="normale_conversation_response")
-        return response.content
+        self.converse_for_request = converse_for_request
+        self.pdf_search_for_request = pdf_search_for_request
 
     def should_continue(self, state: TutorState) -> str:
         if state.get('should_exit', False):
@@ -186,11 +178,14 @@ class TutorChain:
         # Log the response content and the order in which tools are executed.
         logger.info("Completed tool: %s", tool_name)
         logger.debug("Response from %s: %s", tool_name, response.content)
+        # print("done!")
         
         return response
 
 
     def invoke(self, state: TutorState) -> dict:
+        # logger.info("INVOKINGGGGG")
+        # logger.info(state)
         results = self.tutor_chain.invoke(state)
         state.update(results)
         return state
