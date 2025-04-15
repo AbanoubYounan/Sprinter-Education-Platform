@@ -1,8 +1,8 @@
 // pages/chat.js
 'use client';
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
 export default function ChatPage() {
   const [sessions, setSessions] = useState<any>([]);
   const [selectedSession, setSelectedSession] = useState<any>(null);
