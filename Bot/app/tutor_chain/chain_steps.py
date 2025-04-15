@@ -45,7 +45,7 @@ def analyze_input_with_llm(tutor, state) -> dict:
     history = state.get('db_history', [])
     # Use retrieve_relevant_history for the last 10 interactions
     chat_history = retrieve_relevant_history(history, text, top_n=10)
-    # print("chat history", chat_history)
+
     
     # Build dynamic file history using the helper function.
     file_history_dynamic = build_file_history_string(state)
@@ -70,6 +70,7 @@ def analyze_input_with_llm(tutor, state) -> dict:
         
         Recent Chat History:
         {chat_history}
+        
         User message: "{text}"
 
         Instructions:
@@ -148,7 +149,8 @@ def analyze_input_with_llm(tutor, state) -> dict:
                     "history_index": req.get("history_index", -1)
                 }
                 for req in merged_requests_list
-            }
+            },
+            "db_history": history
         }
     except Exception as e:
         logger.error(f"Error parsing LLM multi-request response: {e}")
@@ -170,7 +172,8 @@ def analyze_input_with_llm(tutor, state) -> dict:
             }],
             "agent_partial_responses": {"req_converse": []},
             "agent_responses": {},
-            "context_references": {"req_converse": {"reference_history": False, "history_index": -1}}
+            "context_references": {"req_converse": {"reference_history": False, "history_index": -1}},
+            "db_history": history
         }
 
 def build_context_node(tutor, state) -> dict:
@@ -180,6 +183,7 @@ def build_context_node(tutor, state) -> dict:
     
     # Use retrieve_relevant_history to extract the most pertinent parts (using top 5 interactions)
     context_history = retrieve_relevant_history(history, current_query, top_n=5)
+    # print("chat history", context_history)
     
     # Build the initial context string with the relevant history and current input
     initial_context = f"Relevant Conversation History:\n{context_history}\n\nUser's Current Input: {current_query}\n"
@@ -268,9 +272,14 @@ def execute_tools_for_requests(tutor, state) -> dict:
 
 
 def generate_conversational_response(tutor, state) -> dict:
-    # Use the refined context stored in state["context"]
+    # Get the conversation history from the state
+    history = state.get('db_history', [])
+    history_lines = "\n".join([f"User: {entry['input']}\nAI: {entry['response']}" for entry in history])
+
+    # Get the refined context stored in state["context"]
     context = state.get("context", "")
     agent_responses = state.get('agent_responses', {})
+
     if not agent_responses:
         return {**state, "conversational_response": f"{context}\nI'm not sure what you're asking. Could you clarify your question?"}
     
@@ -281,8 +290,12 @@ def generate_conversational_response(tutor, state) -> dict:
         combined_responses.append(f"For question: '{request_text}'\nResponse: {response}")
     all_responses = "\n\n".join(combined_responses)
     
-    # Revised prompt instructing the LLM to only output the final answer
+    # Revised prompt instructing the LLM to include the user's history and only output the final answer
     prompt = f"""
+    User Conversation History:
+    {history_lines}
+
+    Context of the current conversation:
     {context}
 
     I've prepared responses to different parts of your message:
@@ -292,12 +305,14 @@ def generate_conversational_response(tutor, state) -> dict:
     IMPORTANT: Do not repeat or include any of the conversation context or internal notes. Return only your final answer.
     Final Answer:
     """
+
     response = tutor.log_and_invoke(
         [{"role": "user", "content": prompt}],
         tool_name="generate_conversational_response"
     )
     final_response = response.content.strip()
     return {**state, "conversational_response": final_response}
+
 
  
 def log_interaction(tutor, state) -> dict:
