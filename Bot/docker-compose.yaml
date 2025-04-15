@@ -7,4 +7,4 @@ services:
       dockerfile: docker/Dockerfile
     container_name: fastapi_app
     ports:
-      - "80:80"
+      - "5015:80"
