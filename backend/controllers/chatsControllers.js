@@ -17,21 +17,27 @@ exports.CreateNewMessage = async (req, res) => {
         user_id: UserID,
         user_input: Message,
     };
+    if(SessionID){
+        requestData['session_id'] = SessionID
+    }
     form.append('request_data', JSON.stringify(requestData));
+    if(PdfFile){
+        form.append('uploaded_file', PdfFile.buffer, {
+            filename: PdfFile.originalname,
+            contentType: PdfFile.mimetype,
+        });
+    }
     // 3. Send the POST request
-    axios.post('https://chat-sprinter.mes-design.com/chat', form, {
+    const response = await axios.post('https://chat-sprinter.mes-design.com/chat', form, {
         headers: {
         ...form.getHeaders(),
         },
     })
-    .then(response => {
-        console.log('Response:', response.data);
-        return res.status(201).json({ "Message": response.data });
-    })
-    .catch(error => {
-        console.error('Error:', error.response ? error.response.data : error.message);
-        return res.status(400).json({ "Message": error.response ? error.response.data : error.message });
-    });
+    
+    if(!SessionID){
+        await chatsModel.CreateNewSeesion(UserID, response.data.session_id, `Chat ${response.data.session_id}`)
+    }
+    return res.status(201).json({ "Response": response.data.response, "SessionID":  response.data.session_id});
 
   } catch (error) {
     console.log('error in CreateNewMessage controller', error)
