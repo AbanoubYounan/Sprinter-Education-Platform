@@ -302,7 +302,7 @@ def generate_conversational_response(tutor, state) -> dict:
     </user_input>
     
     Based on the above, please generate a natural, conversational response that flows well and addresses all of the user's questions.
-    IMPORTANT: Do not repeat or include any of the conversation context or internal notes. Return only your final answer.
+    IMPORTANT: Do not repeat or include any of the conversation context or internal notes. Return only your final answer. your answer shouldn't be long it should be consice and to the point to address the user concerns, it shouldn't be more than 100 word at maximum.
     Final Answer:
     """
 
