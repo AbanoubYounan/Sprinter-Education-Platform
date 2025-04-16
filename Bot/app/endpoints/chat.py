@@ -66,7 +66,7 @@ def chat_endpoint(
         raise HTTPException(status_code=400, detail=f"Invalid JSON for ChatRequest: {e}")
 
     sm = SessionManager(db)
-    
+     
     # 1. Retrieve or create the session.
     session_obj = None
     if chat_request.session_id:
