@@ -4,7 +4,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langgraph.graph import StateGraph, END
 from dotenv import load_dotenv
-
+from helpers.course_names import get_course_titles
 from app.tutor_chain.config import logger, TutorState
 from app.tutor_chain.chain_steps import (
     analyze_input_with_llm,
@@ -25,6 +25,7 @@ from app.tutor_chain.tool_functions import (
     converse_for_request,
     pdf_search_for_request
 )
+from helpers.courses_details import get_courses
 
 load_dotenv()
 
@@ -42,53 +43,9 @@ class TutorChain:
         self.embedding = self.get_embedding_model()
         
         # Unified dictionary combining courses and lessons.
-        self.unified_courses = {
-            "Intro to Python": {
-                "course_disc": "Beginner-friendly Python course.",
-                "lessons": {
-                    "lesson 1": {
-                        "lesson_title": "Introduction to Python",
-                        "lesson_disc": "This lesson introduces basic Python concepts and syntax."
-                    }
-                }
-            },
-            "Web Dev with Django": {
-                "course_disc": "Build full-stack web apps with Django.",
-                "lessons": {
-                    "lesson 1": {
-                        "lesson_title": "Django setup, project structure, and development server.",
-                        "lesson_disc": "Django setup, project structure, and development server."
-                    },
-                    "lesson 2": {
-                        "lesson_title": "Django views, URLs, and templates explained in detail.",
-                        "lesson_disc": "Django views, URLs, and templates explained in detail."
-                    }
-                }
-            },
-            "Data Science with Pandas": {
-                "course_disc": "Analyze data using Pandas & NumPy.",
-                "lessons": {
-                    "lesson 1": {
-                        "lesson_title": "Intro to Pandas, DataFrames and Series, basic operations.",
-                        "lesson_disc": "Intro to Pandas, DataFrames and Series, basic operations."
-                    },
-                    "lesson 2": {
-                        "lesson_title": "Reading CSVs, indexing, filtering, and groupby operations.",
-                        "lesson_disc": "Reading CSVs, indexing, filtering, and groupby operations."
-                    }
-                }
-            },
-            "Machine Learning Basics": {
-                "course_disc": "Learn ML with Scikit-learn and Python.",
-                "lessons": {
-                    "lesson 1": {
-                        "lesson_title": "Introduction to Machine Learning",
-                        "lesson_disc": "This lesson covers the fundamentals of machine learning using Scikit-learn."
-                    }
-                }
-            }
-        }
+        self.unified_courses = get_courses()
         
+        self.course_names = get_course_titles()
         # Initialize one unified vector store using the unified dictionary.
         self.init_vectorstores()
         

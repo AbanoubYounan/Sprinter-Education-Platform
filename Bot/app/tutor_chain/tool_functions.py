@@ -30,13 +30,15 @@ def generate_search_query(tutor, state, additional_info="") -> str:
 
         And considering the following additional details:
         {additional_info}
-
+        
+        these are the available courses:
+        {tutor.course_names}
         Instructions:
         1. Provide a concise search query in plain English that reflects the user's interests.
         2. Do not use any Boolean operators (such as OR, AND, NOT) or any complex punctuation—write a natural sentence.
-        3. Only use topics within the following categories: web development, mobile development, data science, and machine learning.
         4. If no relevant context or details are found, simply return "intro to python course".
         5. Only return the search query text without any explanation.
+        6. if the user is new and dont have any data always recommend at first introduction to python course
 
         SEND SEARCH QUERY NOW:
         """
@@ -147,13 +149,9 @@ def recommend_courses_for_request(tutor, state, request) -> str:
     if retrieved_courses:
         recommended_course_title, course_details = retrieved_courses[0]
     else:
-        recommended_course_title = "Intro to Python"
-        course_details = "Course: Intro to Python\nDescription: Beginner-friendly Python course."
-    
-    # Debug: print the retrieved course details.
-    # print("Retrieved Course Details:", course_details)
-    
-    # Build a prompt that forces the LLM to recommend the retrieved course.
+        recommended_course_title = "Introduction to python"
+        course_details = "Course: Introduction to python\nDescription: Beginner-friendly Python course."
+
     prompt = f"""
     The user is interested in: {request_text}
     Completed courses: {completed_courses}
@@ -170,7 +168,7 @@ def handle_course_completion_for_request(tutor, state, request) -> str:
     completed_courses = request.get("completed_courses", [])
     prompt = f"""
     The user has indicated they've completed some courses.
-    Available courses: ["intro to python", "web dev with django", "data science with pandas", "machine learning basics"]
+    Available courses: {tutor.course_names}
     User's message: "{request_text}"
     Courses that user wants to mark as completed: {completed_courses}
     Their current course list: {state.get('completed_courses', [])}
@@ -211,7 +209,7 @@ def converse_for_request(tutor, state, request) -> str:
         
         Please generate a warm, engaging, and natural conversational response that continues the dialogue.
         """
-        response = tutor.log_and_invoke([{"role": "user", "content": prompt}], tool_name="normale_conversation_response")
+        response = tutor.log_and_invoke([{"role": "user", "content": prompt}], tool_name="normal_conversation_response")
         return response.content
     
     
@@ -273,10 +271,6 @@ def pdf_search_for_request(tutor, state, request) -> str:
 
     # Log the current working directory.
     # print("Current working directory:", current_path)
-
-    # (Optional) Check if the file exists on disk.
-    # Build an absolute path from the current path and the relative file path.
-    # Remove any leading "./" from original_name before joining.
 
     # Retrieve the configuration stored in the file info.
     tool_config = pdf_info.get("tool_config")
