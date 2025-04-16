@@ -209,7 +209,7 @@ def converse_for_request(tutor, state, request) -> str:
         
         Please generate a warm, engaging, and natural conversational response that continues the dialogue.
         """
-        response = tutor.log_and_invoke([{"role": "user", "content": prompt}], tool_name="normale_conversation_response")
+        response = tutor.log_and_invoke([{"role": "user", "content": prompt}], tool_name="normal_conversation_response")
         return response.content
     
     

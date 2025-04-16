@@ -273,6 +273,7 @@ def generate_conversational_response(tutor, state) -> dict:
 
     # Get the refined context stored in state["context"]
     context = state.get("context", "")
+    user_input = state.get("user_input", "")
     agent_responses = state.get('agent_responses', {})
 
     if not agent_responses:
@@ -295,7 +296,11 @@ def generate_conversational_response(tutor, state) -> dict:
 
     I've prepared responses to different parts of your message:
     {all_responses}
-
+    
+    <user_input>
+    {user_input}
+    </user_input>
+    
     Based on the above, please generate a natural, conversational response that flows well and addresses all of the user's questions.
     IMPORTANT: Do not repeat or include any of the conversation context or internal notes. Return only your final answer.
     Final Answer:
