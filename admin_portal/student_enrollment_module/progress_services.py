@@ -2,6 +2,7 @@
 import streamlit as st
 from time import sleep
 from rich import print  # For pretty rich text output
+from uuid import uuid4
 
 def get_instructors(cursor):
     """Fetch all instructors from the users table."""
@@ -14,15 +15,16 @@ def get_students(cursor):
     return cursor.fetchall()
 
 def get_user_enrollments(cursor, user_id):
-    """Fetch enrollments and progress for a specific user (student or instructor)."""
+    """Fetch enrollments, progress, and course ID for a specific user (student or instructor)."""
     query = '''
-        SELECT c.course_title, e.status, e.progress
+        SELECT c.course_title, e.status, e.progress, e.course_ID
         FROM enrollments e
         JOIN courses c ON e.course_ID = c.course_ID
         WHERE e.user_ID = %s
     '''
     cursor.execute(query, (user_id,))
     return cursor.fetchall()
+
 
 
 
@@ -75,54 +77,9 @@ def display_student_enrollments(cursor):
                 else:
                     st.write("No enrollments.")
 
-def simulate_watching_content(cursor):
-    # Tab for simulating course watching and progress update
-    with st.container():
-        st.subheader("Simulate Student Watching Content and Update Progress")
 
-        # Step 1: Choose the student from a dropdown
-        students = get_students(cursor)
-        student_options = [full_name for _, full_name in students]
-        selected_student = st.selectbox("Select Student", student_options)
 
-        # Step 2: Fetch student ID based on selected name
-        selected_student_id = [student_id for student_id, full_name in students if full_name == selected_student][0]
-
-        # Step 3: Show all courses the student is enrolled in
-        enrollments = get_student_enrollments(cursor, selected_student_id)
-        if not enrollments:
-            st.write("This student is not enrolled in any courses.")
-        else:
-            # Show the courses in a selectbox
-            course_titles = [title for title, _, _ in enrollments]
-            selected_course = st.selectbox("Select Course", course_titles)
-
-            # Get selected course details
-            selected_course_details = next((title, status, progress, total_hours) for title, status, progress, total_hours in enrollments if title == selected_course)
-
-            # Show course progress
-            course_title, status, progress, total_hours = selected_course_details
-            st.write(f"Course: {course_title}")
-            st.write(f"Current Progress: {progress}%")
-            st.write(f"Total Hours: {total_hours} hours")
-
-            # Step 4: Simulate "Watch" button to increase progress
-            watched_hours = st.slider("Watched Hours", min_value=0, max_value=total_hours, value=0, step=1)
-
-            if st.button("Update Progress"):
-                if watched_hours > 0:
-                    # Calculate new progress
-                    new_progress = (watched_hours / total_hours) * 100
-                    new_progress = min(new_progress, 100)  # Ensure progress doesn't go over 100%
-
-                    # Update progress in the database (assuming there is a function for that)
-                    update_student_progress(cursor, selected_student_id, selected_course, new_progress)
-
-                    st.success(f"Progress updated to {new_progress:.2f}%")
-                else:
-                    st.warning("Please select watched hours.")
-
-def update_student_progress(cursor, student_id, course_title, watched_hours):
+def update_student_progress(cursor, db_conn, student_id, course_title, watched_hours):
     try:
         # Fetch the total hours of the course
         cursor.execute("SELECT total_hours FROM courses WHERE course_title = %s", (course_title,))
@@ -136,19 +93,100 @@ def update_student_progress(cursor, student_id, course_title, watched_hours):
         if total_hours <= 0:
             raise Exception("Course total hours must be greater than zero.")
 
-        # Calculate the progress percentage
+        # Calculate progress percentage
         progress_percentage = (watched_hours / total_hours) * 100
-        progress_percentage = min(progress_percentage, 100)  # Ensure it doesn't exceed 100%
+        progress_percentage = min(progress_percentage, 100)
 
-        # Update the progress in the enrollments table
+        # Insert enrollment with status = 'Active'
         cursor.execute('''
-            UPDATE enrollments
-            SET progress = %s
-            WHERE user_ID = %s AND course_ID = (SELECT course_ID FROM courses WHERE course_title = %s)
-        ''', (progress_percentage, student_id, course_title))
+            INSERT INTO enrollments (user_ID, course_ID, progress, status)
+            VALUES (
+                %s,
+                (SELECT course_ID FROM courses WHERE course_title = %s),
+                %s,
+                'Active'
+            )
+        ''', (student_id, course_title, progress_percentage))
 
-        cursor.connection.commit()
+        db_conn.commit()
+        return progress_percentage
 
-        return progress_percentage  # Return the calculated progress for confirmation
     except Exception as e:
         raise Exception(f"Error updating student progress: {e}")
+
+
+
+def unenroll_student(cursor, student_id, course_title, db_conn):
+    try:
+        # First, unenroll the student from the course
+        cursor.execute('''
+            DELETE FROM enrollments 
+            WHERE user_ID = %s AND course_ID = (
+                SELECT course_ID FROM courses WHERE course_title = %s
+            )
+        ''', (student_id, course_title))
+        
+        # Delete the review if it exists
+        cursor.execute('''
+            DELETE FROM course_reviews 
+            WHERE user_ID = %s AND course_ID = (
+                SELECT course_ID FROM courses WHERE course_title = %s
+            )
+        ''', (student_id, course_title))
+        
+        db_conn.commit()
+        st.success(f"Successfully unenrolled from the course '{course_title}' and review deleted!")
+    except Exception as e:
+        db_conn.rollback()
+        st.error(f"Error while unenrolling from course '{course_title}': {e}")
+
+
+
+def add_or_update_review(cursor, db_conn, user_id, course_id, rating, review_text):
+    try:
+        # Check if the review already exists for the student-course pair
+        cursor.execute('''
+            SELECT review_ID FROM course_reviews 
+            WHERE user_ID = %s AND course_ID = %s
+        ''', (user_id, course_id))
+        existing_review = cursor.fetchone()
+
+        if existing_review:
+            # Update existing review
+            cursor.execute('''
+                UPDATE course_reviews
+                SET rating = %s, review = %s, created_at = CURRENT_TIMESTAMP
+                WHERE review_ID = %s
+            ''', (rating, review_text, existing_review[0]))
+            db_conn.commit()
+            st.success("Review updated successfully!")
+        else:
+            # Insert new review
+            review_id = str(uuid4())
+            cursor.execute('''
+                INSERT INTO course_reviews (review_ID, user_ID, course_ID, rating, review)
+                VALUES (%s, %s, %s, %s, %s)
+            ''', (review_id, user_id, course_id, rating, review_text))
+            db_conn.commit()
+            st.success("Review added successfully!")
+    except Exception as e:
+        db_conn.rollback()
+        st.error(f"Error while adding/updating review: {e}")
+
+
+def get_review_for_course(cursor, user_id, course_id):
+    try:
+        cursor.execute('''
+            SELECT rating, review FROM course_reviews 
+            WHERE user_ID = %s AND course_ID = %s
+        ''', (user_id, course_id))
+        review = cursor.fetchone()
+
+        if review:
+            return {"rating": review[0], "review": review[1]}
+        else:
+            return None
+    except Exception as e:
+        st.error(f"Error while fetching review: {e}")
+        return None
+

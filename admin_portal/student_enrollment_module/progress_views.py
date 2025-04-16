@@ -7,7 +7,10 @@ from student_enrollment_module.progress_services import (
     get_user_enrollments,
     get_instructor_courses,
     get_courses,
-    update_student_progress
+    update_student_progress,
+    unenroll_student,
+    get_review_for_course,
+    add_or_update_review
 )
 
 def enrollment_management_view(cursor, db_conn):
@@ -29,9 +32,9 @@ def enrollment_management_view(cursor, db_conn):
 
                     enrollments = get_user_enrollments(cursor, student_id)
                     if enrollments:
-                        for title, status, progress in enrollments:
+                        for title, status, progress, course_id in enrollments:
                             st.markdown(f"<h5 style='font-weight: bold; font-size: 20px;'>{title}</h5>", unsafe_allow_html=True)
-                            
+
                             progress_percentage = int(progress)
                             if progress_percentage == 100:
                                 status_color = "green"
@@ -39,8 +42,39 @@ def enrollment_management_view(cursor, db_conn):
                                 status_color = "yellow"
                             else:
                                 status_color = "red"
-                            
+
                             st.markdown(f"<p style='font-size:18px; color:{status_color};'>📘 Status: {status}, Progress: {progress}%</p>", unsafe_allow_html=True)
+
+                            review = get_review_for_course(cursor, student_id, course_id)
+                            sentiment_mapping = ["one", "two", "three", "four", "five"]
+                            if review:
+                                st.write(f"⭐ Rating: {review['rating']} star(s)")
+                                st.write(f"📝 Review: {review['review']}")
+                            else:
+                                st.write("⭐ Rating: No rating yet")
+                                st.write("📝 Review: No review yet")
+
+                            st.write("Rate this course:")
+                            selected = st.feedback("stars", key=f"stars_{student_id}_{course_id}")
+
+                            review_text = st.text_area(
+                                "Write a review (optional):", 
+                                key=f"review_{student_id}_{course_id}"
+                            )
+
+                            if selected is not None:
+                                st.markdown(f"You selected {sentiment_mapping[int(selected)]} star(s).")
+
+                            if st.button("Submit Review", key=f"submit_review_{student_id}_{course_id}"):
+                                if selected is not None:
+                                    try:
+                                        add_or_update_review(cursor, db_conn, student_id, course_id, int(selected+1), review_text)
+                                        st.success("Your review has been submitted/updated!")
+                                        st.rerun()
+                                    except Exception as e:
+                                        st.error(f"Failed to submit review: {e}")
+                                else:
+                                    st.warning("Please select a star rating before submitting.")
                     else:
                         st.write("No enrollments.")
 
@@ -67,7 +101,7 @@ def enrollment_management_view(cursor, db_conn):
                     else:
                         st.write("No courses created.")
 
-    # Tab 3: Manage Student Enrollments and Simulate Progress Watching
+    # Tab 3: Manage Student Enrollments
     with tab3:
         st.subheader("🎯 Manage Student Enrollments")
 
@@ -82,37 +116,49 @@ def enrollment_management_view(cursor, db_conn):
             st.markdown(f"### 📚 Current Enrollments for {selected_student_label.split(' (')[0]}")
             current_enrollments = get_user_enrollments(cursor, selected_student_id)
 
+            enrolled_course_ids = set()
+
             if current_enrollments:
-                for title, status, progress in current_enrollments:
-                    st.write(f"**{title}** — Status: {status}, Progress: {progress}%")
+                for title, status, progress, course_id in current_enrollments:
+                    enrolled_course_ids.add(course_id)
+
+                    col1, col2 = st.columns([4, 1])
+                    with col1:
+                        st.write(f"**{title}** — Status: {status}, Progress: {progress:.1f}%")
+                    with col2:
+                        if st.button(f"❌ Unenroll", key=f"unenroll_{selected_student_id}_{course_id}"):
+                            try:
+                                unenroll_student(cursor, selected_student_id, title, db_conn)
+                                st.success(f"Unenrolled from '{title}' successfully!")
+                                st.rerun()
+                            except Exception as e:
+                                st.error(f"Error unenrolling: {e}")
             else:
                 st.info("No current enrollments.")
 
+
+            # Show all unenrolled courses with enroll buttons
             st.markdown("---")
-            st.markdown(f"### ➕ Add New Courses for {selected_student_label.split(' (')[0]}")
+            st.markdown(f"### ➕ Enroll {selected_student_label.split(' (')[0]} in a New Course")
 
             all_courses = get_courses(cursor)
-            enrolled_titles = [title for title, _, _ in current_enrollments]
+            unenrolled_courses = [(cid, title) for cid, title in all_courses if cid not in enrolled_course_ids]
 
-            available_courses = [(cid, title) for cid, title in all_courses if title not in enrolled_titles]
+            if unenrolled_courses:
+                for course_id, course_title in unenrolled_courses:
+                    col1, col2 = st.columns([4, 1])
+                    with col1:
+                        st.write(f"**{course_title}**")
+                    with col2:
+                        if st.button("✅ Enroll", key=f"enroll_{selected_student_id}_{course_id}"):
+                            try:
+                                update_student_progress(cursor, db_conn, selected_student_id, course_title, 0)
+                                st.success(f"Enrolled in '{course_title}' successfully!")
+                                st.rerun()
+                            except Exception as e:
+                                st.error(f"Failed to enroll student: {e}")
+            else:
+                st.info("All courses already enrolled.")
 
-            for course_id, course_title in available_courses:
-                col1, col2 = st.columns([4, 1])
-                with col1:
-                    st.write(f"**{course_title}**")
-                with col2:
-                    if st.button("Enroll", key=f"enroll_{course_id}"):
-                        enroll_id = str(uuid4())
-                        try:
-                            cursor.execute(
-                                '''INSERT INTO enrollments (enroll_ID, user_ID, course_ID, status, progress)
-                                VALUES (%s, %s, %s, 'Active', 0.0)''',
-                                (enroll_id, selected_student_id, course_id)
-                            )
-                            db_conn.commit()
-                            st.success(f"Enrolled in '{course_title}'!")
-                            st.rerun()
-                        except Exception as e:
-                            st.error(f"Failed to enroll: {e}")
 
-            st.markdown("---")
+
