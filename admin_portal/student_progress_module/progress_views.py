@@ -51,7 +51,6 @@ def progress_management_view(cursor, db_conn):
     top_instructors_df = get_top_instructors_by_courses(cursor).head(num_instructors)
     st.dataframe(top_instructors_df, use_container_width=True, hide_index=True)
 
-
     st.markdown("---")
 
     # === STUDENT PROGRESS ===
@@ -83,7 +82,10 @@ def progress_management_view(cursor, db_conn):
 
         with cols[i % 4]:
             fig = plot_donut_chart(course_title, progress)
-            st.plotly_chart(fig, use_container_width=True)
+
+            # ✅ Add unique key to avoid duplication error
+            chart_key = f"{selected_student}_{course_title}_{i}"
+            st.plotly_chart(fig, use_container_width=True, key=chart_key)
 
             # ⬇ Course title directly under the figure
             st.markdown(
