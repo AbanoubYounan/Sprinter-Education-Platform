@@ -16,15 +16,7 @@ This README will focus on the **MySQL Database setup**, along with connection de
 
 ## Database Configuration
 
-The MySQL database is hosted remotely using Amazon RDS, and the following credentials are used to establish the connection:
-
-### Connection Details
-
-- **Host**: `db.cl0oa2kwiw65.me-central-1.rds.amazonaws.com`
-- **User**: `admin`
-- **Password**: `bo13QknuzQ5nKR95QU9i`
-- **Database Name**: `CourseDataBase`
-
+The MySQL database is hosted remotely using Amazon RDS.
 
 ## Features
 
